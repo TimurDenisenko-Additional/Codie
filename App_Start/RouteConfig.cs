@@ -2,10 +2,14 @@
 using Codie.Models.DB;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+
 
 namespace Codie
 {
@@ -15,7 +19,6 @@ namespace Codie
         {
             DBContext db = new DBContext();
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
