@@ -134,6 +134,7 @@
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\DB\DBContext.cs" />
     <Compile Include="Models\DB\DBInitializer.cs" />
+    <Compile Include="Models\MaterialModel.cs" />
     <Compile Include="Models\UserState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
