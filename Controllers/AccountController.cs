@@ -141,7 +141,7 @@ namespace Codie.Controllers
                     HttpContext.Cache.Insert("Authorized", true, null, DateTime.Now.AddDays(1), System.Web.Caching.Cache.NoSlidingExpiration);
                     UserState.Authorized = true;
                     UserState.CurrentUser = reAcc;
-                    return RedirectToAction("Sissejuhatus", "Book");
+                    return RedirectToAction("Introduction", "Book");
                 }
             }
             catch { }
@@ -151,7 +151,7 @@ namespace Codie.Controllers
         {
             UserState.Authorized = false;
             UserState.CurrentUser = null;
-            return RedirectToAction("Sissejuhatus", "Book");
+            return RedirectToAction("Introduction", "Book");
         }
         public ActionResult Recovery()
         {

@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3. peatükk: Meetodid ja funktsioonid C#-is</title>
+</head>
+<body>
+    <h1>3. peatükk: Meetodid ja funktsioonid C#-is</h1>
+    <p>Selles peatükis õpime tundma meetodeid ja funktsioone C#-is, mis võimaldavad jagada koodi eraldi osadeks, muuta seda korduvkasutatavaks ja loogiliseks. Samuti vaatleme parameetreid, tagastusväärtusi ja meetodite ülekoormamist.</p>
+
+    <h2>3.1. Mis on meetod?</h2>
+    <p><strong>Meetod</strong> on koodiplokk, mis täidab kindlat ülesannet ja mida saab programmis korduvalt kasutada. Meetodid aitavad muuta koodi loogilisemaks, korduvkasutatavaks ja hõlpsasti hallatavaks.</p>
+
+    <h3>Meetodi struktuur</h3>
+    <pre>
+    <code>
+public return_type MethodName(parameters)
+{
+    // meetodi keha
+}
+        </code>
+    </pre>
+
+    <ul>
+        <li><code>public</code> – juurdepääsumodifikaator, määrab, kes saab meetodit kasutada</li>
+        <li><code>return_type</code> – meetodi tagastatav väärtuse tüüp (void, int, string jne)</li>
+        <li><code>MethodName</code> – meetodi nimi</li>
+        <li><code>parameters</code> – sisendparameetrid (valikuline)</li>
+        <li><code>{ }</code> – meetodi keha, kus on kood, mida käivitatakse, kui meetodit kutsutakse</li>
+    </ul>
+
+    <h2>3.2. Meetodi loomine ja kutsumine</h2>
+    <p>Loome lihtsa meetodi, mis ei võta vastu parameetreid ega tagasta väärtust.</p>
+
+    <h3>Meetodi näide</h3>
+    <pre>
+    <code>
+public void PrintGreeting()
+{
+    Console.WriteLine("Tere tulemast!");
+}
+        </code>
+    </pre>
+    <p>Meetodi <code>PrintGreeting</code> kutsumiseks kasutame lihtsalt selle nime:</p>
+
+    <pre>
+    <code>
+PrintGreeting(); // Väljund: Tere tulemast!
+        </code>
+    </pre>
+
+    <h2>3.3. Parameetritega meetodid</h2>
+    <p>Meetodid võivad võtta vastu parameetreid, mis võimaldavad edastada meetodile täiendavat teavet.</p>
+
+    <h3>Parameetritega meetodi näide</h3>
+    <pre>
+    <code>
+public void GreetUser(string name)
+{
+    Console.WriteLine($"Tere, {name}!");
+}
+        </code>
+    </pre>
+    <p>Meetodi <code>GreetUser</code> kutsumiseks koos parameetriga:</p>
+
+    <pre>
+    <code>
+GreetUser("Alice"); // Väljund: Tere, Alice!
+        </code>
+    </pre>
+
+    <h2>3.4. Tagastusväärtusega meetodid</h2>
+    <p>Meetodid võivad tagastada väärtuse, mis tähendab, et meetod annab vastuse tagasi selle kutsumiskohta.</p>
+
+    <h3>Tagastusväärtusega meetodi näide</h3>
+    <pre>
+    <code>
+public int Sum(int a, int b)
+{
+    return a + b;
+}
+        </code>
+    </pre>
+    <p>Meetodi <code>Sum</code> kutsumiseks ja tulemuse kasutamiseks:</p>
+
+    <pre>
+    <code>
+int result = Sum(5, 10);
+Console.WriteLine(result); // Väljund: 15
+        </code>
+    </pre>
+
+    <h2>3.5. Meetodi ülekoormamine</h2>
+    <p><strong>Meetodi ülekoormamine</strong> võimaldab luua mitu sama nimega meetodit, mis võtavad vastu erinevaid parameetreid.</p>
+
+    <h3>Ülekoormatud meetodite näide</h3>
+    <pre>
+    <code>
+public void PrintMessage()
+{
+    Console.WriteLine("Tere!");
+}
+
+public void PrintMessage(string message)
+{
+    Console.WriteLine(message);
+}
+        </code>
+    </pre>
+    <p>Kutsudes <code>PrintMessage()</code> ilma parameetrita, kuvab see "Tere!". Kui anname kaasa sõnumi, kuvab see sõnumi sisu:</p>
+
+    <pre>
+    <code>
+PrintMessage(); // Väljund: Tere!
+PrintMessage("Kuidas läheb?"); // Väljund: Kuidas läheb?
+        </code>
+    </pre>
+
+    <h2>3.6. Rekursioon</h2>
+    <p><strong>Rekursioon</strong> on meetod, mis kutsub iseennast. Seda kasutatakse tihti keerukate probleemide lahendamiseks.</p>
+
+    <h3>Rekursiivse meetodi näide: faktoriaal</h3>
+    <pre>
+    <code>
+public int Factorial(int n)
+{
+    if (n <= 1)
+        return 1;
+    else
+        return n * Factorial(n - 1);
+}
+        </code>
+    </pre>
+    <p>Meetodi <code>Factorial</code> kutsumisel arvutab see faktoriaali:</p>
+
+    <pre>
+    <code>
+int result = Factorial(5);
+Console.WriteLine(result); // Väljund: 120
+        </code>
+    </pre>
+
+    <h2>Harjutused</h2>
+    <ol>
+        <li><strong>Lihtne tervitus:</strong> Looge meetod, mis võtab vastu nime ja tervitab kasutajat nimepõhiselt (näiteks "Tere, Maria!").</li>
+        <li><strong>Arvude liitmine:</strong> Looge meetod, mis võtab vastu kaks täisarvu ja tagastab nende summa.</li>
+        <li><strong>Ülekoormamine:</strong> Looge ülekoormatud meetod, mis kuvab tervituse erinevate sõnumitega, olenevalt sellest, kas meetodile on sõnum edastatud või mitte.</li>
+        <li><strong>Fibonacci:</strong> Looge rekursiivne meetod, mis arvutab Fibonacci järjestuse n-nda elemendi.</li>
+    </ol>
+
+    <h2>Kokkuvõte</h2>
+    <p>Selles peatükis õppisime looma ja kasutama meetodeid, edastama neile parameetreid, tagastama väärtusi ja kasutama meetodite ülekoormamist. Samuti tutvusime rekursiooni kontseptsiooniga. Järgmistes peatükkides uurime OOP (objektorienteeritud programmeerimist) ja klasside kasutamist C#-is.</p>
+</body>
+</html>

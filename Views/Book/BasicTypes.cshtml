@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. peatükk: Põhitüübid ja operaatorid C#-is</title>
+</head>
+<body>
+    <h1>2. peatükk: Põhitüübid ja operaatorid C#-is</h1>
+    <p>Selles peatükis käsitleme andmetüüpe ja operaatoreid, mis on C# programmeerimisel hädavajalikud. Õpime erinevaid tüüpe kasutama, looma muutujaid ning sooritama arvutusi ja loogilisi operatsioone.</p>
+
+    <h2>2.1. Andmetüübid</h2>
+    <p>C# on tugevalt tüübitud keel, mis tähendab, et iga muutuja peab olema määratud kindla tüübi järgi. Tüübid määravad muutuja omadused ja tema kasutusvõimalused.</p>
+
+    <h3>Primitiivsed andmetüübid</h3>
+    <ul>
+        <li><strong>int</strong>: täisarv, nt <code>int number = 10;</code></li>
+        <li><strong>double</strong>: kümnendmurd, nt <code>double pi = 3.14;</code></li>
+        <li><strong>bool</strong>: tõeväärtus (true või false), nt <code>bool isTrue = true;</code></li>
+        <li><strong>char</strong>: üks sümbol, nt <code>char letter = 'A';</code></li>
+        <li><strong>string</strong>: sõne ehk tekst, nt <code>string name = "Alice";</code></li>
+    </ul>
+
+    <h3>Andmetüüpide näited</h3>
+    <pre>
+    <code>
+int age = 30;
+double height = 1.82;
+bool isStudent = false;
+char grade = 'A';
+string fullName = "John Doe";
+Console.WriteLine($"Name: {fullName}, Age: {age}, Height: {height}, Is Student: {isStudent}, Grade: {grade}");
+        </code>
+    </pre>
+
+    <h2>2.2. Muutujad ja konstandid</h2>
+    <p>Muutuja on mälukoht, kuhu saab väärtust salvestada ja hiljem vajadusel muuta. Konstandid aga on muutumatud väärtused, mida määratakse üks kord ja ei muudeta programmi jooksul.</p>
+
+    <h3>Muutuja loomine</h3>
+    <pre>
+    <code>
+int number = 5;
+string message = "Tere, maailm!";
+        </code>
+    </pre>
+
+    <h3>Konstandid</h3>
+    <p>Konstandi loomine toimub märksõnaga <code>const</code>:</p>
+    <pre>
+    <code>
+const double Pi = 3.14159;
+const int MaxStudents = 30;
+        </code>
+    </pre>
+
+    <h2>2.3. Operaatorid</h2>
+    <p>Operaatorid võimaldavad teostada arvutusi, võrrelda väärtusi ja sooritada loogilisi operatsioone. Järgnevalt vaatleme põhigruppe: aritmeetilised, võrdlus- ja loogilised operaatorid.</p>
+
+    <h3>Aritmeetilised operaatorid</h3>
+    <ul>
+        <li><code>+</code> – liitmine</li>
+        <li><code>-</code> – lahutamine</li>
+        <li><code>*</code> – korrutamine</li>
+        <li><code>/</code> – jagamine</li>
+        <li><code>%</code> – jääk ehk modulo</li>
+    </ul>
+
+    <h3>Aritmeetiliste operaatorite näide</h3>
+    <pre>
+    <code>
+int a = 10;
+int b = 3;
+Console.WriteLine(a + b); // 13
+Console.WriteLine(a - b); // 7
+Console.WriteLine(a * b); // 30
+Console.WriteLine(a / b); // 3
+Console.WriteLine(a % b); // 1
+        </code>
+    </pre>
+
+    <h3>Võrdlusoperaatorid</h3>
+    <ul>
+        <li><code>==</code> – võrdub</li>
+        <li><code>!=</code> – ei võrdu</li>
+        <li><code>&lt;</code> – väiksem kui</li>
+        <li><code>&gt;</code> – suurem kui</li>
+        <li><code>&lt;=</code> – väiksem või võrdne</li>
+        <li><code>&gt;=</code> – suurem või võrdne</li>
+    </ul>
+
+    <h3>Võrdlusoperaatorite näide</h3>
+    <pre>
+    <code>
+int x = 5;
+int y = 10;
+Console.WriteLine(x == y); // false
+Console.WriteLine(x != y); // true
+Console.WriteLine(x &lt; y); // true
+Console.WriteLine(x &gt;= 3); // true
+        </code>
+    </pre>
+
+    <h3>Loogilised operaatorid</h3>
+    <ul>
+        <li><code>&&</code> – ja (AND)</li>
+        <li><code>||</code> – või (OR)</li>
+        <li><code>!</code> – eitamine (NOT)</li>
+    </ul>
+
+    <h3>Loogiliste operaatorite näide</h3>
+    <pre>
+    <code>
+bool isSunny = true;
+bool isWeekend = false;
+Console.WriteLine(isSunny && isWeekend); // false
+Console.WriteLine(isSunny || isWeekend); // true
+Console.WriteLine(!isSunny); // false
+        </code>
+    </pre>
+
+    <h2>2.4. Sisend ja väljund</h2>
+    <p>C# võimaldab lugeda kasutajalt sisendit ja kuvada väljundit konsooli abil. Vaatleme näidet, kus küsitakse kasutajalt tema nimi ja tervitatakse teda.</p>
+
+    <h3>Sisendi ja väljundi näide</h3>
+    <pre>
+    <code>
+Console.WriteLine("Sisestage oma nimi:");
+string name = Console.ReadLine();
+Console.WriteLine($"Tere, {name}!");
+        </code>
+    </pre>
+
+    <h2>Harjutused</h2>
+    <ol>
+        <li><strong>Aritmeetilised operatsioonid:</strong> Looge programm, mis küsib kasutajalt kaks täisarvu ja kuvab nende summa, vahe, korrutise ja jagatise.</li>
+        <li><strong>Võrdlusoperaatorite kasutamine:</strong> Kirjutage programm, mis võrdleb kahe numbri väärtusi ja kuvab, kumb on suurem või kas nad on võrdsed.</li>
+        <li><strong>Loogilised operaatorid:</strong> Kirjutage programm, mis küsib kasutajalt, kas on nädalavahetus ja päikesepaisteline ilm ning kuvab, kas on ideaalne päev väljas olemiseks.</li>
+    </ol>
+
+    <h2>Kokkuvõte</h2>
+    <p>Selles peatükis õppisime, kuidas kasutada põhilisi andmetüüpe ja operaatorid C#-is. Järgmistes peatükkides uurime juhtimisstruktuure, nagu tingimuslauseid ja tsükleid, mis aitavad luua dünaamilisemaid ja keerukamaid programme.</p>
+</body>
+</html>
