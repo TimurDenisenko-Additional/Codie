@@ -18,19 +18,14 @@ namespace Codie.Controllers
             return View(db.Accounts.ToList());
         }
 
-        // GET: Account/Details/5
-        public ActionResult Details(int? id)
+        // GET: Account/Details
+        public ActionResult Details()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            AccountModel accountModel = db.Accounts.Find(id);
-            if (accountModel == null)
+            if (UserState.CurrentUser == null)
             {
                 return HttpNotFound();
             }
-            return View(accountModel);
+            return View(UserState.CurrentUser);
         }
 
         // GET: Account/Create
@@ -118,7 +113,7 @@ namespace Codie.Controllers
         {
             try
             {
-                if (db.Accounts.Where(x => x.Email != accountModel.Email).Count() == 0)
+                if (db.Accounts.ToList().Where(x => x.Email == accountModel.Email).Count() == 0)
                 {
                     accountModel.Role = "User";
                     UserState.CurrentUser = accountModel;
@@ -146,7 +141,7 @@ namespace Codie.Controllers
                     HttpContext.Cache.Insert("Authorized", true, null, DateTime.Now.AddDays(1), System.Web.Caching.Cache.NoSlidingExpiration);
                     UserState.Authorized = true;
                     UserState.CurrentUser = reAcc;
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Sissejuhatus", "Book");
                 }
             }
             catch { }
@@ -156,7 +151,7 @@ namespace Codie.Controllers
         {
             UserState.Authorized = false;
             UserState.CurrentUser = null;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Sissejuhatus", "Book");
         }
         public ActionResult Recovery()
         {
