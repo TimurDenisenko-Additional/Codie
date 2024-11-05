@@ -151,5 +151,13 @@ Console.WriteLine(result); // Väljund: 120
 
     <h2>Kokkuvõte</h2>
     <p>Selles peatükis õppisime looma ja kasutama meetodeid, edastama neile parameetreid, tagastama väärtusi ja kasutama meetodite ülekoormamist. Samuti tutvusime rekursiooni kontseptsiooniga. Järgmistes peatükkides uurime OOP (objektorienteeritud programmeerimist) ja klasside kasutamist C#-is.</p>
+    @if (Codie.Controllers.BookController.PreviosPage != "404")
+    {
+        <input type="button" value="Previos" onclick="window.location.href='@Codie.Controllers.BookController.PreviosPage'" />
+    }
+    @if (Codie.Controllers.BookController.NextPage != "404")
+    {
+        <input type="button" value="Next" onclick="window.location.href='@Codie.Controllers.BookController.NextPage'" />
+    }
 </body>
 </html>

@@ -116,5 +116,13 @@ Console.WriteLine(result); // true
 
     <h2>Kokkuvõte</h2>
     <p>Selles peatükis õppisime, kuidas paigaldada ja seadistada Visual Studio, kirjutasime esimese programmi ja uurisime C# programmi struktuuri. Järgmistes peatükkides süveneme andmetüüpidesse, juhtvoogude kontrolli ja liigume edasi objektorienteeritud programmeerimise alusteni.</p>
+    @if (Codie.Controllers.BookController.PreviosPage != "404")
+    {
+        <input type="button" value="Previos" onclick="window.location.href='@Codie.Controllers.BookController.PreviosPage'" />
+    }
+    @if (Codie.Controllers.BookController.NextPage != "404")
+    {
+        <input type="button" value="Next" onclick="window.location.href='@Codie.Controllers.BookController.NextPage'" />
+    }
 </body>
 </html>
