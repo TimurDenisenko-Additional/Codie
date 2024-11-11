@@ -20,10 +20,11 @@
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    @{ 
+                    @{
                         if ((UserState.CurrentUser?.Role ?? "User") == "Admin")
                         {
                             <li> @Html.ActionLink("Account", "Index", "Account", new { area = "" }, new { @class = "nav-link" }) </li>
+                            <li> @Html.ActionLink("Single tasks manage", "Index", "SingleChoise", new { area = "" }, new { @class = "nav-link" }) </li>
                         }
                     }
                 </ul>

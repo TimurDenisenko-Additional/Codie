@@ -129,12 +129,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\SingleChoiseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\DB\DBContext.cs" />
     <Compile Include="Models\DB\DBInitializer.cs" />
+    <Compile Include="Models\SingleChoiseModel.cs" />
     <Compile Include="Models\UserState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -209,6 +211,11 @@
     <Content Include="Views\Book\ASP.cshtml" />
     <Content Include="Views\Book\TDD.cshtml" />
     <Content Include="Views\Book\Threads.cshtml" />
+    <Content Include="Views\SingleChoise\Create.cshtml" />
+    <Content Include="Views\SingleChoise\Delete.cshtml" />
+    <Content Include="Views\SingleChoise\Details.cshtml" />
+    <Content Include="Views\SingleChoise\Edit.cshtml" />
+    <Content Include="Views\SingleChoise\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

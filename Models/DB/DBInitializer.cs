@@ -2,7 +2,7 @@
 
 namespace Codie.Models.DB
 {
-    public class DBInitializer : CreateDatabaseIfNotExists<DbContext>
+    public class DBInitializer : DropCreateDatabaseIfModelChanges<DbContext>
     {
         protected override void Seed(DbContext db)
         {
