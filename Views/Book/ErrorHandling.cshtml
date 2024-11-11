@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6. peatükk: Vigade käsitlemine ja erandid</title>
+</head>
+<body>
+    <h1>6. peatükk: Vigade käsitlemine ja erandid</h1>
+    <p>Selles peatükis uurime, kuidas C#-is käsitletakse vigu ja erandeid. Korralik vigade käsitlemine on oluline, et teha rakendus töökindlamaks ja vähendada ootamatuid krahhe.</p>
+
+    <h2>6.1. Mis on erand?</h2>
+    <p>Erand on ootamatu viga, mis juhtub programmi täitmise ajal. Näiteks võib see olla jagamine nulliga, fail, mida ei leitud, või vale kasutaja sisend.</p>
+    <p>Kui erandit ei käsitleta, võib see peatada programmi täitmise.</p>
+
+    <h2>6.2. Try-Catch-Finally struktuur</h2>
+    <p>Vigade käsitlemiseks kasutatakse C#-is <code>try-catch-finally</code> struktuuri:</p>
+
+    <h3>Try-Catch näide</h3>
+    <pre>
+    <code>
+try
+{
+    int result = 10 / 0; // See viskab erandi
+}
+catch (DivideByZeroException ex)
+{
+    Console.WriteLine($"Viga: {ex.Message}");
+}
+        </code>
+    </pre>
+    <p>Väljund: <code>Viga: Attempted to divide by zero.</code></p>
+
+    <h3>Finally plokk</h3>
+    <p><code>finally</code> plokki kasutatakse puhastuskoodi jaoks, mis täidetakse alati, olenemata sellest, kas erand tekkis või mitte.</p>
+    <pre>
+    <code>
+try
+{
+    Console.WriteLine("Käivitan koodi.");
+}
+catch
+{
+    Console.WriteLine("Viga!");
+}
+finally
+{
+    Console.WriteLine("See käivitatakse alati.");
+}
+        </code>
+    </pre>
+    <p>
+        Väljund: <br>
+        <code>Käivitan koodi.</code><br>
+        <code>See käivitatakse alati.</code>
+    </p>
+
+    <h2>6.3. Spetsiifiliste erandite käsitlemine</h2>
+    <p>Erinevate erandite jaoks saab kasutada mitut <code>catch</code> plokki:</p>
+    <pre>
+    <code>
+try
+{
+    string text = null;
+    Console.WriteLine(text.Length); // See viskab erandi
+}
+catch (NullReferenceException ex)
+{
+    Console.WriteLine("NullReferenceException: " + ex.Message);
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Üldine viga: " + ex.Message);
+}
+        </code>
+    </pre>
+
+    <h2>6.4. Oma erandite loomine</h2>
+    <p>Saate luua oma erandi, pärides <code>Exception</code> klassi:</p>
+    <pre>
+    <code>
+public class MyCustomException : Exception
+{
+    public MyCustomException(string message) : base(message) { }
+}
+
+try
+{
+    throw new MyCustomException("See on minu erand.");
+}
+catch (MyCustomException ex)
+{
+    Console.WriteLine(ex.Message);
+}
+        </code>
+    </pre>
+    <p>Väljund: <code>See on minu erand.</code></p>
+
+    <h2>6.5. Erandite viskamine</h2>
+    <p>Erandi viskamiseks kasutatakse <code>throw</code> märksõna:</p>
+    <pre>
+    <code>
+public void Divide(int a, int b)
+{
+    if (b == 0)
+        throw new DivideByZeroException("Nulliga jagamine pole lubatud!");
+    Console.WriteLine(a / b);
+}
+
+try
+{
+    Divide(10, 0);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Viga: {ex.Message}");
+}
+        </code>
+    </pre>
+    <p>Väljund: <code>Viga: Nulliga jagamine pole lubatud!</code></p>
+
+    <h2>Harjutused</h2>
+    <ol>
+        <li><strong>Nulliga jagamine:</strong> Kirjutage programm, mis küsib kaks arvu ja käsitleb nulliga jagamise erandit.</li>
+        <li><strong>Faili lugemine:</strong> Looge programm, mis proovib lugeda faili. Kui faili pole, kuvage veateade.</li>
+        <li><strong>Oma erand:</strong> Looge kohandatud erand ja visake see, kui kasutaja sisestab negatiivse arvu.</li>
+    </ol>
+
+    <h2>Kokkuvõte</h2>
+    <p>Selles peatükis õppisime tundma vigade käsitlemist ja erandeid C#-is. Kasutades korralikult <code>try-catch-finally</code> struktuuri ja visates oma erandeid, saate muuta oma programmi usaldusväärsemaks ja kasutajasõbralikumaks.</p>
+
+    @if (Codie.Controllers.BookController.PreviosPage != "404")
+    {
+        <input type="button" value="Previos" onclick="window.location.href='@Codie.Controllers.BookController.PreviosPage'" />
+    }
+    @if (Codie.Controllers.BookController.NextPage != "404")
+    {
+        <input type="button" value="Next" onclick="window.location.href='@Codie.Controllers.BookController.NextPage'" />
+    }
+</body>
+</html>

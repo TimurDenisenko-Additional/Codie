@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11. peatükk: Graafilised kasutajaliidesed (Windows Forms ja WPF)</title>
+</head>
+<body>
+    <h1>11. peatükk: Graafilised kasutajaliidesed (Windows Forms ja WPF)</h1>
+    <p>Selles peatükis tutvume C# tööriistadega, mida kasutatakse graafiliste kasutajaliideste (GUI) loomiseks. Keskendume Windows Forms ja WPF (Windows Presentation Foundation) tehnoloogiatele.</p>
+
+    <h2>11.1. Mis on Windows Forms?</h2>
+    <p><strong>Windows Forms</strong> on lihtne ja tõhus raamistik, mida kasutatakse töölauarakenduste loomiseks. Selle abil saate luua aknaid, nuppe, tekstikaste ja muid GUI komponente.</p>
+
+    <h3>Lihtsa Windows Forms rakenduse loomine</h3>
+    <p>Loome lihtsa Windows Forms rakenduse, kus on nupp ja tekstikast.</p>
+    <pre>
+    <code>
+using System;
+using System.Windows.Forms;
+
+public class MyForm : Form
+{
+    private Button button;
+    private TextBox textBox;
+
+    public MyForm()
+    {
+        button = new Button() { Text = "Vajuta siia", Left = 50, Top = 50, Width = 100 };
+        textBox = new TextBox() { Left = 50, Top = 100, Width = 200 };
+
+        button.Click += (sender, args) =>
+        {
+            textBox.Text = "Tere, maailm!";
+        };
+
+        Controls.Add(button);
+        Controls.Add(textBox);
+    }
+
+    [STAThread]
+    public static void Main()
+    {
+        Application.EnableVisualStyles();
+        Application.Run(new MyForm());
+    }
+}
+        </code>
+    </pre>
+    <p>Ülaltoodud kood loob lihtsa akna, kus nupule vajutades kuvatakse tekstikastis "Tere, maailm!".</p>
+
+    <h2>11.2. Mis on WPF?</h2>
+    <p><strong>WPF (Windows Presentation Foundation)</strong> on võimas raamistik, mis võimaldab luua kaasaegseid ja esteetiliselt atraktiivseid kasutajaliideseid. See põhineb XAML-il (Extensible Application Markup Language).</p>
+
+    <h3>Lihtsa WPF rakenduse loomine</h3>
+    <p>Loome WPF rakenduse, mis kuvab nupu ja tervitab kasutajat nupule vajutades.</p>
+
+    <h4>MainWindow.xaml</h4>
+    <pre>
+    <code>
+<Window x:Class="WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tere tulemast!" Height="200" Width="300">
+    <Grid>
+    <Button Name="GreetButton" Content="Vajuta siia" Width="100" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Click="GreetButton_Click" />
+    </Grid>
+</Window>
+        </code>
+    </pre>
+
+    <h4>MainWindow.xaml.cs</h4>
+    <pre>
+    <code>
+using System.Windows;
+
+namespace WpfApp
+{
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void GreetButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Tere, maailm!");
+        }
+    }
+}
+        </code>
+    </pre>
+    <p>Nupule vajutades kuvatakse dialoog "Tere, maailm!".</p>
+
+    <h2>11.3. XAML ülevaade</h2>
+    <p>XAML (Extensible Application Markup Language) on deklaratiivne keel, mida kasutatakse WPF-is kasutajaliideste määratlemiseks. XAML võimaldab eraldada rakenduse disaini ja loogikat.</p>
+
+    <h3>Näide</h3>
+    <pre>
+    <code>
+<StackPanel>
+    <TextBlock Text="Tere tulemast!" FontSize="20" Margin="10" />
+    <Button Content="Vajuta siia" Width="100" Height="30" Margin="10" />
+</StackPanel>
+        </code>
+    </pre>
+
+    <h2>11.4. WPF-i eelised Windows Forms-i ees</h2>
+    <ul>
+        <li>Parem visuaalne disain ja animatsioonid</li>
+        <li>Paindlik paigutus ja stiilid</li>
+        <li>XAML võimaldab paremat eraldatust disaini ja loogika vahel</li>
+    </ul>
+
+    <h2>Harjutused</h2>
+    <ol>
+        <li><strong>Windows Forms:</strong> Looge rakendus, kus kasutaja saab sisestada oma nime ja tervitada ennast.</li>
+        <li><strong>WPF:</strong> Looge rakendus, mis kuvab tekstikasti ja nupu. Nupule vajutades peaks tekstikasti sisu muutuma.</li>
+        <li><strong>XAML:</strong> Lisage XAML-ile kujundus, mis muudab nupu tausta värvi ja teksti suurust.</li>
+    </ol>
+
+    <h2>Kokkuvõte</h2>
+    <p>Selles peatükis õppisime tundma Windows Forms ja WPF raamistikku ning nende kasutamist graafiliste kasutajaliideste loomiseks. Need tööriistad võimaldavad luua nii lihtsaid kui ka keerulisi GUI rakendusi.</p>
+
+    @if (Codie.Controllers.BookController.PreviosPage != "404")
+    {
+        <input type="button" value="Previos" onclick="window.location.href='@Codie.Controllers.BookController.PreviosPage'" />
+    }
+    @if (Codie.Controllers.BookController.NextPage != "404")
+    {
+        <input type="button" value="Next" onclick="window.location.href='@Codie.Controllers.BookController.NextPage'" />
+    }
+</body>
+</html>

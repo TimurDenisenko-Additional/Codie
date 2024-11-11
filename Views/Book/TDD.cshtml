@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14. peatükk: Testimine ja TDD</title>
+</head>
+<body>
+    <h1>14. peatükk: Testimine ja TDD</h1>
+    <p>Selles peatükis õpime, kuidas testida C# rakendusi ja kasutada testipõhist arendust (TDD), et tagada koodi töökindlus ja stabiilsus. Tutvume Unit Testidega ja populaarsete tööriistadega nagu NUnit ja xUnit.</p>
+
+    <h2>14.1. Mis on testipõhine arendus (TDD)?</h2>
+    <p><strong>Testipõhine arendus (TDD)</strong> on tarkvaraarenduse lähenemine, kus kõigepealt kirjutatakse testid ja seejärel kood, mis need testid läbib. TDD töövoog koosneb kolmest sammust:</p>
+    <ol>
+        <li><strong>Kirjuta test:</strong> Määratle, mida kood peaks tegema.</li>
+        <li><strong>Kirjuta kood:</strong> Rakenda minimaalne kood, et test läbiks.</li>
+        <li><strong>Refaktor:</strong> Paranda ja optimeeri koodi, hoides testid rohelisena.</li>
+    </ol>
+
+    <h2>14.2. NUnit-i seadistamine</h2>
+    <p><strong>NUnit</strong> on üks populaarsemaid Unit Test raamistikke C#-is. Selle lisamiseks projekti kasutage järgmist käsku:</p>
+    <pre>
+    <code>
+dotnet add package NUnit
+dotnet add package NUnit3TestAdapter
+dotnet add package Microsoft.NET.Test.Sdk
+        </code>
+    </pre>
+    <p>Looge uus projekt testide jaoks:</p>
+    <pre>
+    <code>
+dotnet new nunit -n MyProject.Tests
+        </code>
+    </pre>
+
+    <h2>14.3. Lihtne Unit Test näide</h2>
+    <p>Loome klassi <code>Calculator</code> ja testime selle funktsioone.</p>
+
+    <h3>Calculator klass</h3>
+    <pre>
+    <code>
+namespace MyProject
+{
+    public class Calculator
+    {
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
+
+        public int Subtract(int a, int b)
+        {
+            return a - b;
+        }
+    }
+}
+        </code>
+    </pre>
+
+    <h3>Testid Calculator klassile</h3>
+    <pre>
+    <code>
+using NUnit.Framework;
+using MyProject;
+
+namespace MyProject.Tests
+{
+    public class CalculatorTests
+    {
+        private Calculator _calculator;
+
+        [SetUp]
+        public void Setup()
+        {
+            _calculator = new Calculator();
+        }
+
+        [Test]
+        public void Add_ReturnsSum_WhenGivenTwoNumbers()
+        {
+            int result = _calculator.Add(2, 3);
+            Assert.AreEqual(5, result);
+        }
+
+        [Test]
+        public void Subtract_ReturnsDifference_WhenGivenTwoNumbers()
+        {
+            int result = _calculator.Subtract(5, 3);
+            Assert.AreEqual(2, result);
+        }
+    }
+}
+        </code>
+    </pre>
+    <p>Käivitage testid käsuga:</p>
+    <pre>
+    <code>
+dotnet test
+        </code>
+    </pre>
+
+    <h2>14.4. Mockimise tööriistad</h2>
+    <p>Mockimine võimaldab simuleerida objektide käitumist testide jaoks. Üks populaarne tööriist on <code>Moq</code>.</p>
+
+    <h3>Moq kasutamine</h3>
+    <pre>
+    <code>
+dotnet add package Moq
+        </code>
+    </pre>
+    <p>Mocki näide:</p>
+    <pre>
+    <code>
+using Moq;
+using NUnit.Framework;
+
+public interface IEmailService
+{
+    void SendEmail(string to, string message);
+}
+
+public class NotificationService
+{
+    private readonly IEmailService _emailService;
+
+    public NotificationService(IEmailService emailService)
+    {
+        _emailService = emailService;
+    }
+
+    public void Notify(string to, string message)
+    {
+        _emailService.SendEmail(to, message);
+    }
+}
+
+[TestFixture]
+public class NotificationServiceTests
+{
+    [Test]
+    public void Notify_CallsSendEmail()
+    {
+        var mockEmailService = new Mock<IEmailService>();
+        var notificationService = new NotificationService(mockEmailService.Object);
+
+        notificationService.Notify("test@example.com", "Hello!");
+
+        mockEmailService.Verify(es => es.SendEmail("test@example.com", "Hello!"), Times.Once);
+    }
+}
+        </code>
+    </pre>
+
+    <h2>14.5. Koodi katvus</h2>
+    <p>Testimise efektiivsuse mõõtmiseks kasutatakse koodi katvust. Lisage projektile tööriist <code>coverlet</code>:</p>
+    <pre>
+    <code>
+dotnet add package coverlet.collector
+        </code>
+    </pre>
+    <p>Käivitage testid ja genereerige katvuse aruanne:</p>
+    <pre>
+    <code>
+dotnet test --collect:"XPlat Code Coverage"
+        </code>
+    </pre>
+
+    <h2>Harjutused</h2>
+    <ol>
+        <li><strong>Unit Test:</strong> Looge klass <code>MathOperations</code>, mis toetab korrutamist ja jagamist, ning kirjutage selle jaoks testid.</li>
+        <li><strong>Mockimine:</strong> Looge süsteem, mis saadab sõnumeid kasutajatele, ja testige seda, kasutades Moq.</li>
+        <li><strong>Koodi katvus:</strong> Mõõtke oma testide koodi katvust ja parandage seda.</li>
+    </ol>
+
+    <h2>Kokkuvõte</h2>
+    <p>Selles peatükis õppisime testimise olulisust ja tutvusime TDD töövooga. Kasutades tööriistu nagu NUnit ja Moq, saate luua töökindlamaid ja paremini testitud rakendusi.</p>
+
+    @if (Codie.Controllers.BookController.PreviosPage != "404")
+    {
+        <input type="button" value="Previos" onclick="window.location.href='@Codie.Controllers.BookController.PreviosPage'" />
+    }
+    @if (Codie.Controllers.BookController.NextPage != "404")
+    {
+        <input type="button" value="Next" onclick="window.location.href='@Codie.Controllers.BookController.NextPage'" />
+    }
+</body>
+</html>

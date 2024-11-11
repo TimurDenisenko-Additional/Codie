@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12. peatükk: Töö andmebaasidega</title>
+</head>
+<body>
+    <h1>12. peatükk: Töö andmebaasidega</h1>
+    <p>Selles peatükis õpime, kuidas töötada andmebaasidega C#-is. Tutvume ADO.NET ja Entity Frameworkiga, mis pakuvad tööriistu andmete salvestamiseks, muutmiseks ja lugemiseks.</p>
+
+    <h2>12.1. Mis on ADO.NET?</h2>
+    <p><strong>ADO.NET</strong> on raamatukogu, mis võimaldab suhelda andmebaasidega, nagu SQL Server, MySQL ja SQLite. See pakub madala taseme juurdepääsu andmebaasi ühenduste ja käskude täitmiseks.</p>
+
+    <h3>Andmebaasi ühendamine ja päringu sooritamine</h3>
+    <pre>
+    <code>
+using System;
+using System.Data.SqlClient;
+
+public class Program
+{
+    public static void Main()
+    {
+        string connectionString = "Server=localhost;Database=MyDatabase;User Id=myUsername;Password=myPassword;";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            Console.WriteLine("Ühendus loodud.");
+
+            string query = "SELECT * FROM MyTable";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Console.WriteLine($"ID: {reader["Id"]}, Nimi: {reader["Name"]}");
+                }
+            }
+        }
+    }
+}
+        </code>
+    </pre>
+
+    <h2>12.2. Entity Framework</h2>
+    <p><strong>Entity Framework (EF)</strong> on kõrgema taseme tööriist, mis lihtsustab tööd andmebaasidega, pakkudes objekt-relatsioonilist kaardistamist (ORM).</p>
+
+    <h3>Entity Framework Core installimine</h3>
+    <p>EF Core lisamiseks oma projekti kasutage NuGet-paketti:</p>
+    <pre>
+    <code>
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+        </code>
+    </pre>
+
+    <h3>Andmebaasi mudeli loomine</h3>
+    <p>Lähme loome andmebaasi mudeli ja konteksti:</p>
+    <pre>
+    <code>
+using Microsoft.EntityFrameworkCore;
+
+public class MyDbContext : DbContext
+{
+    public DbSet<Person> People { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer("Server=localhost;Database=MyDatabase;User Id=myUsername;Password=myPassword;");
+    }
+}
+
+public class Person
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+        </code>
+    </pre>
+
+    <h3>Andmete salvestamine ja lugemine EF Core abil</h3>
+    <pre>
+    <code>
+using System;
+
+public class Program
+{
+    public static void Main()
+    {
+        using (var context = new MyDbContext())
+        {
+            // Lisame uue isiku
+            context.People.Add(new Person { Name = "Alice" });
+            context.SaveChanges();
+
+            // Loeme andmeid
+            foreach (var person in context.People)
+            {
+                Console.WriteLine($"ID: {person.Id}, Nimi: {person.Name}");
+            }
+        }
+    }
+}
+        </code>
+    </pre>
+
+    <h2>12.3. Andmebaasi migratsioonid</h2>
+    <p>Entity Framework Core võimaldab hallata andmebaasi struktuuri migratsioonidega.</p>
+
+    <h3>Migratsiooni loomine</h3>
+    <pre>
+    <code>
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+        </code>
+    </pre>
+    <p>Ülaltoodud käsud loovad andmebaasi ja vajalikud tabelid, mis vastavad teie mudelile.</p>
+
+    <h2>12.4. Andmebaasi CRUD-teenused</h2>
+    <p>CRUD tähendab andmete loomist (Create), lugemist (Read), uuendamist (Update) ja kustutamist (Delete). Need on andmebaasitöö põhitegevused.</p>
+
+    <h3>CRUD-näide EF Core abil</h3>
+    <pre>
+    <code>
+// Loome isiku
+context.People.Add(new Person { Name = "John Doe" });
+context.SaveChanges();
+
+// Loeme isikud
+var people = context.People.ToList();
+foreach (var person in people)
+{
+    Console.WriteLine($"ID: {person.Id}, Nimi: {person.Name}");
+}
+
+// Uuendame isikut
+var personToUpdate = context.People.First();
+personToUpdate.Name = "Jane Doe";
+context.SaveChanges();
+
+// Kustutame isiku
+var personToDelete = context.People.First();
+context.People.Remove(personToDelete);
+context.SaveChanges();
+        </code>
+    </pre>
+
+    <h2>Harjutused</h2>
+    <ol>
+        <li><strong>ADO.NET:</strong> Looge programm, mis loeb andmebaasist andmeid ja kuvab need konsoolis.</li>
+        <li><strong>Entity Framework:</strong> Looge mudel "Raamat" ja lisage kirjeid andmebaasi.</li>
+        <li><strong>CRUD:</strong> Looge CRUD-operatsioonid, et hallata kasutajate andmeid.</li>
+    </ol>
+
+    <h2>Kokkuvõte</h2>
+    <p>Selles peatükis õppisime tundma ADO.NET ja Entity Framework tööriistu, mis võimaldavad tõhusalt töötada andmebaasidega. Järgmises peatükis vaatleme testimist ja TDD-d (Test-Driven Development).</p>
+
+    @if (Codie.Controllers.BookController.PreviosPage != "404")
+    {
+        <input type="button" value="Previos" onclick="window.location.href='@Codie.Controllers.BookController.PreviosPage'" />
+    }
+    @if (Codie.Controllers.BookController.NextPage != "404")
+    {
+        <input type="button" value="Next" onclick="window.location.href='@Codie.Controllers.BookController.NextPage'" />
+    }
+</body>
+</html>

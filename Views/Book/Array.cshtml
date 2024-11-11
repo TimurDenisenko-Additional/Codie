@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. peatükk: Kogud ja andmetöötlus C#-is</title>
+</head>
+<body>
+    <h1>7. peatükk: Kogud ja andmetöötlus C#-is</h1>
+    <p>Selles peatükis uurime, kuidas kasutada C# kogusid (collections), mis võimaldavad hallata ja töödelda suurtes kogustes andmeid. Õpime tundma massiive, generilisi kogusid ja LINQ päringuid.</p>
+
+    <h2>7.1. Massiivid</h2>
+    <p><strong>Massiiv</strong> on fikseeritud suurusega andmestruktuur, mis sisaldab sama tüüpi elemente.</p>
+
+    <h3>Massiivi loomine</h3>
+    <pre>
+    <code>
+int[] numbers = { 1, 2, 3, 4, 5 };
+Console.WriteLine(numbers[0]); // Väljund: 1
+        </code>
+    </pre>
+
+    <h3>Massiivi läbimine</h3>
+    <pre>
+    <code>
+foreach (int number in numbers)
+{
+    Console.WriteLine(number);
+}
+        </code>
+    </pre>
+
+    <h2>7.2. Generilised kogud</h2>
+    <p>Generilised kogud asuvad <code>System.Collections.Generic</code> nimede ruumis ja on paindlikumad kui massiivid. Need sisaldavad <code>List</code>, <code>Dictionary</code>, <code>Queue</code> ja <code>Stack</code>.</p>
+
+    <h3>List (loend)</h3>
+    <pre>
+    <code>
+List<string> names = new List<string>();
+names.Add("Alice");
+names.Add("Bob");
+names.Add("Charlie");
+
+foreach (string name in names)
+{
+    Console.WriteLine(name);
+}
+        </code>
+    </pre>
+
+    <h3>Dictionary (sõnastik)</h3>
+    <p><code>Dictionary</code> salvestab võtme-väärtuse paare.</p>
+    <pre>
+    <code>
+Dictionary<int, string> students = new Dictionary<int, string>();
+students.Add(1, "Alice");
+students.Add(2, "Bob");
+
+Console.WriteLine(students[1]); // Väljund: Alice
+        </code>
+    </pre>
+
+    <h3>Queue (järjekord)</h3>
+    <p><code>Queue</code> järgib FIFO (first-in, first-out) põhimõtet.</p>
+    <pre>
+    <code>
+Queue<string> queue = new Queue<string>();
+queue.Enqueue("First");
+queue.Enqueue("Second");
+queue.Enqueue("Third");
+
+Console.WriteLine(queue.Dequeue()); // Väljund: First
+        </code>
+    </pre>
+
+    <h3>Stack (virn)</h3>
+    <p><code>Stack</code> järgib LIFO (last-in, first-out) põhimõtet.</p>
+    <pre>
+    <code>
+Stack<string> stack = new Stack<string>();
+stack.Push("First");
+stack.Push("Second");
+stack.Push("Third");
+
+Console.WriteLine(stack.Pop()); // Väljund: Third
+        </code>
+    </pre>
+
+    <h2>7.3. LINQ päringud</h2>
+    <p>LINQ (Language Integrated Query) võimaldab teha andmetöötlust lihtsamalt ja loetavamalt.</p>
+
+    <h3>LINQ näide</h3>
+    <pre>
+    <code>
+using System.Linq;
+
+int[] numbers = { 1, 2, 3, 4, 5, 6 };
+var evenNumbers = numbers.Where(n => n % 2 == 0);
+
+foreach (int number in evenNumbers)
+{
+    Console.WriteLine(number); // Väljund: 2, 4, 6
+}
+        </code>
+    </pre>
+
+    <h2>Harjutused</h2>
+    <ol>
+        <li><strong>Massiivi loomine:</strong> Looge täisarvude massiiv ja kuvage selle elemendid tsükli abil.</li>
+        <li><strong>Loendi kasutamine:</strong> Lisage <code>List</code> tüüpi kogusse nimed ja sorteerige need tähestiku järjekorras.</li>
+        <li><strong>Sõnastik:</strong> Looge <code>Dictionary</code>, mis seob tudengi ID nende nimega, ja kuvage kõik paarid.</li>
+        <li><strong>LINQ päring:</strong> Kasutage LINQ päringut, et filtreerida numbreid massiivist, mis on suuremad kui 10.</li>
+    </ol>
+
+    <h2>Kokkuvõte</h2>
+    <p>Selles peatükis õppisime tundma kogusid ja LINQ päringuid, mis võimaldavad efektiivselt hallata ja töödelda suuri andmehulkasid. Järgmises peatükis vaatleme, kuidas kasutada delegaate, sündmusi ja lambda-avaldusi.</p>
+
+    @if (Codie.Controllers.BookController.PreviosPage != "404")
+    {
+        <input type="button" value="Previos" onclick="window.location.href='@Codie.Controllers.BookController.PreviosPage'" />
+    }
+    @if (Codie.Controllers.BookController.NextPage != "404")
+    {
+        <input type="button" value="Next" onclick="window.location.href='@Codie.Controllers.BookController.NextPage'" />
+    }
+</body>
+</html>

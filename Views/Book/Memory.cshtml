@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. peatükk: Mälu haldamine ja prügi kogumine</title>
+</head>
+<body>
+    <h1>5. peatükk: Mälu haldamine ja prügi kogumine</h1>
+    <p>Selles peatükis vaatleme, kuidas C# haldab mälu, mis on hallatavad ja hallatamatud andmetüübid ning kuidas töötab prügi kogumise mehhanism. Mälu tõhus haldamine on kriitiline osa suure jõudlusega rakenduste arendamisel.</p>
+
+    <h2>5.1. Hallatavad ja hallatamatud andmed</h2>
+    <p>C# ja .NET Framework kasutavad kahte tüüpi mälu: hallatav mälu (managed memory) ja hallatamatu mälu (unmanaged memory).</p>
+
+    <h3>Hallatav mälu</h3>
+    <ul>
+        <li>Hallatav mälu on see, mida .NET Common Language Runtime (CLR) haldab automaatselt.</li>
+        <li>Selle mälu kasutamisel pole vaja muretseda selle vabastamise pärast – CLR teeb seda teie eest.</li>
+        <li>Näiteks: viitetüübid, nagu <code>string</code> ja <code>class</code>.</li>
+    </ul>
+
+    <h3>Hallatamatu mälu</h3>
+    <ul>
+        <li>Hallatamata mälu on see, mida ei halda CLR ja mida peab arendaja ise vabastama.</li>
+        <li>Seda kasutatakse näiteks väliste C++ teekide või süsteemiressursside (nt failid või võrgusoklid) haldamiseks.</li>
+    </ul>
+
+    <h2>5.2. Prügi kogumine (Garbage Collection)</h2>
+    <p><strong>Prügi kogumine</strong> on mehhanism, mis tuvastab ja vabastab kasutamata hallatava mälu automaatselt. See aitab vältida mälu lekkeid.</p>
+
+    <h3>Kuidas töötab prügi kogumine?</h3>
+    <ol>
+        <li>CLR jälgib viidetega hallatavaid objekte.</li>
+        <li>Kasutamata objektid (millele pole viiteid) märgitakse "prügiks".</li>
+        <li>Prügi kogumise käigus vabaneb nende objektide mälu.</li>
+    </ol>
+
+    <h3>Prügi kogumise põlvkonnad</h3>
+    <ul>
+        <li><strong>0. põlvkond</strong>: Uued objektid, mis luuakse ja eemaldatakse kiiresti.</li>
+        <li><strong>1. põlvkond</strong>: Objektid, mis on "ellu jäänud" vähemalt ühe kogumise.</li>
+        <li><strong>2. põlvkond</strong>: Objektid, mis on kasutusel pikaajaliselt.</li>
+    </ul>
+
+    <h3>Prügi kogumise käsitsi käivitamine</h3>
+    <pre>
+    <code>
+GC.Collect(); // Käivitab prügi kogumise
+GC.WaitForPendingFinalizers(); // Ootab lõplike tegevuste lõpetamist
+        </code>
+    </pre>
+
+    <h2>5.3. Ressursside vabastamine</h2>
+    <p>Kui töötate hallatamatu mäluga (näiteks failid või andmebaasid), peate ressursid ise vabastama.</p>
+
+    <h3>Ressursside vabastamise näide</h3>
+    <pre>
+    <code>
+using System;
+using System.IO;
+
+public class FileHandler : IDisposable
+{
+    private FileStream fileStream;
+
+    public FileHandler(string path)
+    {
+        fileStream = new FileStream(path, FileMode.OpenOrCreate);
+    }
+
+    public void Write(string data)
+    {
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(data);
+        fileStream.Write(bytes, 0, bytes.Length);
+    }
+
+    public void Dispose()
+    {
+        fileStream?.Close();
+        Console.WriteLine("Ressursid vabastatud.");
+    }
+}
+        </code>
+    </pre>
+    <p>Kasutamine:</p>
+    <pre>
+    <code>
+using (FileHandler handler = new FileHandler("file.txt"))
+{
+    handler.Write("Tere, maailm!");
+}
+// Väljund: Ressursid vabastatud.
+        </code>
+    </pre>
+
+    <h2>5.4. Finantsijaatorid (Finalizers)</h2>
+    <p><strong>Finantsijaator</strong> (<code>~ClassName</code>) on meetod, mis käivitatakse enne objekti eemaldamist prügi kogumise käigus. Seda kasutatakse tavaliselt hallatamatu mälu vabastamiseks.</p>
+
+    <h3>Finantsijaatori näide</h3>
+    <pre>
+    <code>
+public class ResourceHolder
+{
+    ~ResourceHolder()
+    {
+        Console.WriteLine("Finantsijaator käivitatud.");
+    }
+}
+        </code>
+    </pre>
+
+    <h2>Harjutused</h2>
+    <ol>
+        <li><strong>GC.Collect:</strong> Looge programm, mis loob mitu objekti ja seejärel vabastab mälu käsitsi, kasutades <code>GC.Collect</code>.</li>
+        <li><strong>IDisposable:</strong> Looge klass, mis haldab failiressursse, ja rakendage <code>IDisposable</code>.</li>
+        <li><strong>Finantsijaator:</strong> Lisage klassi finantsijaator ja jälgige selle töövoogu programmiga.</li>
+    </ol>
+
+    <h2>Kokkuvõte</h2>
+    <p>Selles peatükis õppisime, kuidas C# haldab mälu, mis on prügi kogumine ja kuidas käsitleda hallatamatuid ressursse. Mälu haldamise parimate praktikate järgimine aitab tagada teie rakenduste tõhususe ja stabiilsuse.</p>
+
+    @if (Codie.Controllers.BookController.PreviosPage != "404")
+    {
+        <input type="button" value="Previos" onclick="window.location.href='@Codie.Controllers.BookController.PreviosPage'" />
+    }
+    @if (Codie.Controllers.BookController.NextPage != "404")
+    {
+        <input type="button" value="Next" onclick="window.location.href='@Codie.Controllers.BookController.NextPage'" />
+    }
+</body>
+</html>

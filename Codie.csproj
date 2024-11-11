@@ -197,6 +197,18 @@
     <Content Include="Views\Book\Introduction.cshtml" />
     <Content Include="Views\Book\BasicTypes.cshtml" />
     <Content Include="Views\Book\Methods.cshtml" />
+    <Content Include="Views\Book\OOP.cshtml" />
+    <Content Include="Views\Book\Memory.cshtml" />
+    <Content Include="Views\Book\ErrorHandling.cshtml" />
+    <Content Include="Views\Book\Array.cshtml" />
+    <Content Include="Views\Book\Lambda.cshtml" />
+    <Content Include="Views\Book\FileManage.cshtml" />
+    <Content Include="Views\Book\Async.cshtml" />
+    <Content Include="Views\Book\WindowsForms.cshtml" />
+    <Content Include="Views\Book\ADO.cshtml" />
+    <Content Include="Views\Book\ASP.cshtml" />
+    <Content Include="Views\Book\TDD.cshtml" />
+    <Content Include="Views\Book\Threads.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

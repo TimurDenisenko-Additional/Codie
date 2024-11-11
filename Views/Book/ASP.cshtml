@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13. peatükk: Töö veebirakendustega (ASP.NET)</title>
+</head>
+<body>
+    <h1>13. peatükk: Töö veebirakendustega (ASP.NET)</h1>
+    <p>Selles peatükis õpime looma veebirakendusi ASP.NET abil. ASP.NET on C#-i raamistik, mis võimaldab luua dünaamilisi ja skaleeritavaid veebirakendusi.</p>
+
+    <h2>13.1. Mis on ASP.NET?</h2>
+    <p><strong>ASP.NET</strong> on raamistik, mida kasutatakse veebirakenduste ja API-de loomiseks. See toetab MVC (Model-View-Controller) mustrit ja RESTful API-de loomist.</p>
+
+    <h3>ASP.NET Web API ülevaade</h3>
+    <p>Web API võimaldab luua RESTful teenuseid, mida saab kasutada andmete haldamiseks ja kliendirakendustega suhtlemiseks.</p>
+
+    <h2>13.2. ASP.NET MVC rakenduse loomine</h2>
+    <p>Loome lihtsa ASP.NET MVC veebirakenduse.</p>
+
+    <h3>1. Projekti loomine</h3>
+    <p>Kasutage Visual Studio-d ja valige <code>ASP.NET Core Web App (Model-View-Controller)</code>. Lisage nimi ja looge projekt.</p>
+
+    <h3>2. Kontrolleri loomine</h3>
+    <pre>
+    <code>
+using Microsoft.AspNetCore.Mvc;
+
+namespace MyWebApp.Controllers
+{
+    public class HomeController : Controller
+    {
+        public IActionResult Index()
+        {
+            ViewData["Message"] = "Tere tulemast minu veebirakendusse!";
+            return View();
+        }
+    }
+}
+        </code>
+    </pre>
+
+    <h3>3. Vaate loomine</h3>
+    <p>Looge <code>Views/Home/Index.cshtml</code> ja lisage järgmine sisu:</p>
+    <pre>
+    <code>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Avaleht&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;@ViewData["Message"]&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </code>
+    </pre>
+
+    <h3>4. Rakenduse käivitamine</h3>
+    <p>Rakenduse käivitamisel kuvatakse sõnum "Tere tulemast minu veebirakendusse!".</p>
+
+    <h2>13.3. RESTful API loomine</h2>
+    <p>Loome lihtsa RESTful API, mis haldab toodete andmeid.</p>
+
+    <h3>Toodete mudel</h3>
+    <pre>
+    <code>
+namespace MyWebApp.Models
+{
+    public class Product
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+    }
+}
+        </code>
+    </pre>
+
+    <h3>Toodete kontroller</h3>
+    <pre>
+    <code>
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+
+namespace MyWebApp.Controllers
+{
+    [ApiController]
+    [Route("api/products")]
+    public class ProductsController : ControllerBase
+    {
+        private static List<Product> products = new List<Product>
+        {
+            new Product { Id = 1, Name = "Toode 1", Price = 10.99m },
+            new Product { Id = 2, Name = "Toode 2", Price = 19.99m }
+        };
+
+        [HttpGet]
+        public IEnumerable<Product> Get()
+        {
+            return products;
+        }
+
+        [HttpPost]
+        public IActionResult Create(Product product)
+        {
+            products.Add(product);
+            return Ok(product);
+        }
+    }
+}
+        </code>
+    </pre>
+
+    <h3>API testimine</h3>
+    <p>Käivitage rakendus ja kasutage <code>Postman</code> või <code>curl</code>, et testida API päringuid:</p>
+    <pre>
+    <code>
+GET http://localhost:5000/api/products
+POST http://localhost:5000/api/products
+Body: { "id": 3, "name": "Toode 3", "price": 15.99 }
+        </code>
+    </pre>
+
+    <h2>13.4. Kasutajate autentimine ja autoriseerimine</h2>
+    <p>ASP.NET võimaldab lisada autentimist ja autoriseerimist, kasutades Identity-tööriista.</p>
+
+    <h3>Identity lisamine</h3>
+    <pre>
+    <code>
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+        </code>
+    </pre>
+    <p>Kasutage <code>Identity</code>, et hallata kasutajakontosid ja rolle.</p>
+
+    <h2>Harjutused</h2>
+    <ol>
+        <li><strong>MVC rakendus:</strong> Looge veebirakendus, mis kuvab kasutajate nimekirja ja võimaldab lisada uusi kasutajaid.</li>
+        <li><strong>RESTful API:</strong> Looge API, mis haldab tellimusi koos CRUD-funktsionaalsusega.</li>
+        <li><strong>Autentimine:</strong> Lisage autentimine ja looge süsteem, kus kasutajad saavad registreeruda ja sisse logida.</li>
+    </ol>
+
+    <h2>Kokkuvõte</h2>
+    <p>Selles peatükis õppisime looma veebirakendusi ASP.NET abil, sealhulgas MVC mustri ja RESTful API-de kasutamist. Järgmises peatükis vaatleme testimist ja TDD-d (Test-Driven Development).</p>
+
+    @if (Codie.Controllers.BookController.PreviosPage != "404")
+    {
+        <input type="button" value="Previos" onclick="window.location.href='@Codie.Controllers.BookController.PreviosPage'" />
+    }
+    @if (Codie.Controllers.BookController.NextPage != "404")
+    {
+        <input type="button" value="Next" onclick="window.location.href='@Codie.Controllers.BookController.NextPage'" />
+    }
+</body>
+</html>
