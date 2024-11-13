@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Codie.Models;
 using Codie.Models.DB;
+using Newtonsoft.Json;
 
 namespace Codie.Controllers
 {
@@ -42,9 +41,6 @@ namespace Codie.Controllers
             return View();
         }
 
-        // POST: SingleChoise/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Statement,Options")] SingleChoiseModel singleChoiseModel)
@@ -116,6 +112,15 @@ namespace Codie.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Tasks()
+        {
+            List<Tuple<string, SingleChoiseTask[]>> SCMList = new List<Tuple<string, SingleChoiseTask[]>>();
+            foreach (SingleChoiseModel scm in db.SingleChoiseModels)
+            {
+                SCMList.Add(Tuple.Create(scm.Statement, JsonConvert.DeserializeObject<SingleChoiseTask[]>(scm.Options)));
+            }
+            return View(SCMList);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

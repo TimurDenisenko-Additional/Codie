@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Tasks</title>
+</head>
+<body>
+    @foreach (Tuple<string, Codie.Models.SingleChoiseTask[]> item in Model)
+    {
+        <div>
+            <p>@item.Item1</p>
+            <p>@item.Item2[0].text</p>
+            <input type="radio" name="@item.Item1" value="@item.Item2[0].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
+            <p>@item.Item2[1].text</p>
+            <input type="radio" name="@item.Item1" value="@item.Item2[1].isCorrect.ToString()" onchange="onRadioButtonChange(this)"/>
+        </div>
+    }
+    <script>
+        function onRadioButtonChange(radioButton) {
+            if (radioButton.value==="True") {
+                radioButton.parentElement.style = "background: green; pointer-events: none;";
+            }
+            else {
+                radioButton.parentElement.style = "background: red; color: white; pointer-events: none;";
+            }
+        }
+    </script>
+</body>
+</html>

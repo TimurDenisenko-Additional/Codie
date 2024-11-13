@@ -137,6 +137,7 @@
     <Compile Include="Models\DB\DBContext.cs" />
     <Compile Include="Models\DB\DBInitializer.cs" />
     <Compile Include="Models\SingleChoiseModel.cs" />
+    <Compile Include="Models\SingleChoiseTask.cs" />
     <Compile Include="Models\UserState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -216,6 +217,7 @@
     <Content Include="Views\SingleChoise\Details.cshtml" />
     <Content Include="Views\SingleChoise\Edit.cshtml" />
     <Content Include="Views\SingleChoise\Index.cshtml" />
+    <Content Include="Views\SingleChoise\Tasks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

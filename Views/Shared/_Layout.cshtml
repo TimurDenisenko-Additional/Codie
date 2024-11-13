@@ -26,6 +26,10 @@
                             <li> @Html.ActionLink("Account", "Index", "Account", new { area = "" }, new { @class = "nav-link" }) </li>
                             <li> @Html.ActionLink("Single tasks manage", "Index", "SingleChoise", new { area = "" }, new { @class = "nav-link" }) </li>
                         }
+                        else
+                        {
+                            <li> @Html.ActionLink("Tasks 1", "Tasks", "SingleChoise", new { area = "" }, new { @class = "nav-link" }) </li>
+                        }
                     }
                 </ul>
             </div>
