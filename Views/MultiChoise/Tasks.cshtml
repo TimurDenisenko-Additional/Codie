@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Tasks</title>
+</head>
+<body>
+    @foreach (Tuple<string, Codie.Models.Task[]> item in Model)
+    {
+        <div>
+            <p>@item.Item1</p>
+            <p>@item.Item2[0].text</p>
+            <input type="checkbox" name="@item.Item1" value="@item.Item2[0].isCorrect.ToString()" />
+            <p>@item.Item2[1].text</p>
+            <input type="checkbox" name="@item.Item1" value="@item.Item2[1].isCorrect.ToString()" />
+            <p>@item.Item2[2].text</p>
+            <input type="checkbox" name="@item.Item1" value="@item.Item2[2].isCorrect.ToString()" />
+            <input type="submit" name="@item.Item1" value="Kontrolli" onclick="AnswerSubmit('@item.Item1')"/>
+        </div>
+        <hr />
+    }
+    <script>
+        function AnswerSubmit(groupName) {
+            const checkboxes = document.querySelectorAll(`input[name="${groupName}"]:checked`);
+            try {
+                if (checkboxes[0].value === "True" && checkboxes[1].value === "True") {
+                    checkboxes[0].parentElement.style = "background: green; pointer-events: none;";
+                }
+                else if (checkboxes[0].value === "True" || checkboxes[1].value === "True") {
+                    checkboxes[0].parentElement.style = "background: yellow; pointer-events: none;";
+                }
+                else {
+                    checkboxes[0].parentElement.style = "background: red; color: white; pointer-events: none;";
+                }
+            } catch (e) {
+                checkboxes[0].parentElement.style = "background: red; color: white; pointer-events: none;";
+            }
+        }
+    </script>
+</body>
+</html>

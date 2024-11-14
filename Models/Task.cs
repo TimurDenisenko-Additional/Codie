@@ -1,7 +1,7 @@
 ﻿
 namespace Codie.Models
 {
-    public class SingleChoiseTask
+    public class Task
     {
         public string text { get; set; }
         public bool isCorrect { get; set; }

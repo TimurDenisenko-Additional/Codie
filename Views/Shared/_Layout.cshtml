@@ -25,11 +25,10 @@
                         {
                             <li> @Html.ActionLink("Account", "Index", "Account", new { area = "" }, new { @class = "nav-link" }) </li>
                             <li> @Html.ActionLink("Single tasks manage", "Index", "SingleChoise", new { area = "" }, new { @class = "nav-link" }) </li>
+                            <li> @Html.ActionLink("Multi tasks manage", "Index", "MultiChoise", new { area = "" }, new { @class = "nav-link" }) </li>
                         }
-                        else
-                        {
-                            <li> @Html.ActionLink("Tasks 1", "Tasks", "SingleChoise", new { area = "" }, new { @class = "nav-link" }) </li>
-                        }
+                        <li> @Html.ActionLink("Tasks 1", "Tasks", "SingleChoise", new { area = "" }, new { @class = "nav-link" }) </li>
+                        <li> @Html.ActionLink("Tasks 2", "Tasks", "MultiChoise", new { area = "" }, new { @class = "nav-link" }) </li>
                     }
                 </ul>
             </div>

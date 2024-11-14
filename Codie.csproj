@@ -129,6 +129,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\MultiChoiseController.cs" />
     <Compile Include="Controllers\SingleChoiseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -136,8 +137,9 @@
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\DB\DBContext.cs" />
     <Compile Include="Models\DB\DBInitializer.cs" />
+    <Compile Include="Models\MultiChoiseModel.cs" />
     <Compile Include="Models\SingleChoiseModel.cs" />
-    <Compile Include="Models\SingleChoiseTask.cs" />
+    <Compile Include="Models\Task.cs" />
     <Compile Include="Models\UserState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -218,6 +220,12 @@
     <Content Include="Views\SingleChoise\Edit.cshtml" />
     <Content Include="Views\SingleChoise\Index.cshtml" />
     <Content Include="Views\SingleChoise\Tasks.cshtml" />
+    <Content Include="Views\MultiChoise\Create.cshtml" />
+    <Content Include="Views\MultiChoise\Delete.cshtml" />
+    <Content Include="Views\MultiChoise\Details.cshtml" />
+    <Content Include="Views\MultiChoise\Edit.cshtml" />
+    <Content Include="Views\MultiChoise\Index.cshtml" />
+    <Content Include="Views\MultiChoise\Tasks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

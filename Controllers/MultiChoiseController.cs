@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using Codie.Models;
 using Codie.Models.DB;
@@ -10,117 +12,120 @@ using Newtonsoft.Json;
 
 namespace Codie.Controllers
 {
-    public class SingleChoiseController : Controller
+    public class MultiChoiseController : Controller
     {
         private DBContext db = new DBContext();
 
-        // GET: SingleChoise
+        // GET: MultiChoise
         public ActionResult Index()
         {
-            return View(db.SingleChoiseModels.ToList());
+            return View(db.MultiChoiseModels.ToList());
         }
 
-        // GET: SingleChoise/Details/5
+        // GET: MultiChoise/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SingleChoiseModel singleChoiseModel = db.SingleChoiseModels.Find(id);
-            if (singleChoiseModel == null)
+            MultiChoiseModel multiChoiseModel = db.MultiChoiseModels.Find(id);
+            if (multiChoiseModel == null)
             {
                 return HttpNotFound();
             }
-            return View(singleChoiseModel);
+            return View(multiChoiseModel);
         }
 
-        // GET: SingleChoise/Create
+        // GET: MultiChoise/Create
         public ActionResult Create()
         {
             return View();
         }
 
+        // POST: MultiChoise/Create
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Statement,Options")] SingleChoiseModel singleChoiseModel)
+        public ActionResult Create([Bind(Include = "Id,Statement,Options")] MultiChoiseModel multiChoiseModel)
         {
             if (ModelState.IsValid)
             {
-                db.SingleChoiseModels.Add(singleChoiseModel);
+                db.MultiChoiseModels.Add(multiChoiseModel);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(singleChoiseModel);
+            return View(multiChoiseModel);
         }
 
-        // GET: SingleChoise/Edit/5
+        // GET: MultiChoise/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SingleChoiseModel singleChoiseModel = db.SingleChoiseModels.Find(id);
-            if (singleChoiseModel == null)
+            MultiChoiseModel multiChoiseModel = db.MultiChoiseModels.Find(id);
+            if (multiChoiseModel == null)
             {
                 return HttpNotFound();
             }
-            return View(singleChoiseModel);
+            return View(multiChoiseModel);
         }
 
-        // POST: SingleChoise/Edit/5
+        // POST: MultiChoise/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Statement,Options")] SingleChoiseModel singleChoiseModel)
+        public ActionResult Edit([Bind(Include = "Id,Statement,Options")] MultiChoiseModel multiChoiseModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(singleChoiseModel).State = EntityState.Modified;
+                db.Entry(multiChoiseModel).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(singleChoiseModel);
+            return View(multiChoiseModel);
         }
 
-        // GET: SingleChoise/Delete/5
+        // GET: MultiChoise/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SingleChoiseModel singleChoiseModel = db.SingleChoiseModels.Find(id);
-            if (singleChoiseModel == null)
+            MultiChoiseModel multiChoiseModel = db.MultiChoiseModels.Find(id);
+            if (multiChoiseModel == null)
             {
                 return HttpNotFound();
             }
-            return View(singleChoiseModel);
+            return View(multiChoiseModel);
         }
 
-        // POST: SingleChoise/Delete/5
+        // POST: MultiChoise/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SingleChoiseModel singleChoiseModel = db.SingleChoiseModels.Find(id);
-            db.SingleChoiseModels.Remove(singleChoiseModel);
+            MultiChoiseModel multiChoiseModel = db.MultiChoiseModels.Find(id);
+            db.MultiChoiseModels.Remove(multiChoiseModel);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
         public ActionResult Tasks()
         {
-            List<Tuple<string, Task[]>> SCMList = new List<Tuple<string, Task[]>>();
-            foreach (SingleChoiseModel scm in db.SingleChoiseModels)
+            List<Tuple<string, Task[]>> MCMList = new List<Tuple<string, Task[]>>();
+            foreach (MultiChoiseModel mcm in db.MultiChoiseModels)
             {
-                SCMList.Add(Tuple.Create(scm.Statement, JsonConvert.DeserializeObject<Task[]>(scm.Options)));
+                MCMList.Add(Tuple.Create(mcm.Statement, JsonConvert.DeserializeObject<Task[]>(mcm.Options)));
             }
-            return View(SCMList);
+            return View(MCMList);
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

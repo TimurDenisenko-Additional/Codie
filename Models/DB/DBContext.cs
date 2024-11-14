@@ -7,5 +7,7 @@ namespace Codie.Models.DB
         public DbSet<AccountModel> Accounts { get; set; }
 
         public System.Data.Entity.DbSet<Codie.Models.SingleChoiseModel> SingleChoiseModels { get; set; }
+
+        public System.Data.Entity.DbSet<Codie.Models.MultiChoiseModel> MultiChoiseModels { get; set; }
     }
 }
