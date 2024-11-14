@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Tasks</title>
+</head>
+<body>
+    @foreach (Codie.Models.CodeTaskModel ctm in Model)
+    {
+        <form class="taskForm" data-task-id="@ctm.Id">
+            @Html.AntiForgeryToken()
+            <p>@ctm.Task</p>
+            <textarea rows="4" cols="50" name="code"></textarea>
+            <button type="submit">Lõpeta</button>
+        </form>
+    }
+    <script>
+        document.addEventListener("submit", function (e) {
+            if (e.target.classList.contains("taskForm")) {
+                e.preventDefault();
+                const form = e.target;
+                fetch('/CodeTask/TaskComplete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': form.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        id: form.getAttribute("data-task-id"),
+                        code: form.querySelector('textarea[name="code"]').value
+                    })
+                })
+                .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                    if (data.success) {
+                        form.querySelector('textarea[name="code"]').setAttribute("readonly", "true");
+                        form.querySelector('button[type="submit"]').disabled = true;
+                    }
+                })
+            }
+        });
+
+    </script>
+</body>
+</html>

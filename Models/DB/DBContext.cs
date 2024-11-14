@@ -9,5 +9,7 @@ namespace Codie.Models.DB
         public System.Data.Entity.DbSet<Codie.Models.SingleChoiseModel> SingleChoiseModels { get; set; }
 
         public System.Data.Entity.DbSet<Codie.Models.MultiChoiseModel> MultiChoiseModels { get; set; }
+
+        public System.Data.Entity.DbSet<Codie.Models.CodeTaskModel> CodeTaskModels { get; set; }
     }
 }
