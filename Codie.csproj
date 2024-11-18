@@ -273,6 +273,7 @@
     <Content Include="Views\CodeTask\Index.cshtml" />
     <Content Include="Views\CodeTask\Tasks.cshtml" />
     <Content Include="Views\RandomTasks\EasyTest.cshtml" />
+    <Content Include="Views\RandomTasks\MediumTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

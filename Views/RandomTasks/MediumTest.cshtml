@@ -11,24 +11,30 @@
     <title>EasyTest</title>
 </head>
 <body>
-    <div>
-        <p>@Model.Item1.Item1</p>
-        <p>@Model.Item1.Item2[0].text</p>
-        <input type="radio" name="@Model.Item1.Item1" value="@Model.Item1.Item2[0].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
-        <p>@Model.Item1.Item2[1].text</p>
-        <input type="radio" name="@Model.Item1.Item1" value="@Model.Item1.Item2[1].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
-    </div>
+    @foreach (var item in Model.Item1)
+    {
+        <div>
+            <p>@item.Item1</p>
+            <p>@item.Item2[0].text</p>
+            <input type="radio" name="@item.Item1" value="@item.Item2[0].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
+            <p>@item.Item2[1].text</p>
+            <input type="radio" name="@item.Item1" value="@item.Item2[1].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
+        </div>
+    }
     <hr />
-    <div>
-        <p>@Model.Item2.Item1</p>
-        <p>@Model.Item2.Item2[0].text</p>
-        <input type="checkbox" name="@Model.Item2.Item1" value="@Model.Item2.Item2[0].isCorrect.ToString()" />
-        <p>@Model.Item2.Item2[1].text</p>
-        <input type="checkbox" name="@Model.Item2.Item1" value="@Model.Item2.Item2[1].isCorrect.ToString()" />
-        <p>@Model.Item2.Item2[2].text</p>
-        <input type="checkbox" name="@Model.Item2.Item1" value="@Model.Item2.Item2[2].isCorrect.ToString()" />
-        <input type="submit" name="@Model.Item2.Item1" value="Kontrolli" onclick="AnswerSubmit('@Model.Item2.Item1')" />
-    </div>
+    @foreach (var item in Model.Item2)
+    {
+        <div>
+            <p>@item.Item1</p>
+            <p>@item.Item2[0].text</p>
+            <input type="checkbox" name="@item.Item1" value="@item.Item2[0].isCorrect.ToString()" />
+            <p>@item.Item2[1].text</p>
+            <input type="checkbox" name="@item.Item1" value="@item.Item2[1].isCorrect.ToString()" />
+            <p>@item.Item2[2].text</p>
+            <input type="checkbox" name="@item.Item1" value="@item.Item2[2].isCorrect.ToString()" />
+            <input type="submit" name="@item.Item1" value="Kontrolli" onclick="AnswerSubmit('@item.Item1')" />
+        </div>
+    }
     <hr />
     <form class="taskForm" data-task-id="@Model.Item3.Id">
         @Html.AntiForgeryToken()
