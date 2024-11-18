@@ -1,1 +1,129 @@
-﻿
+﻿/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Headers */
+h3, h4 {
+    color: #6d1a1b; /* Dark red for emphasis */
+    font-weight: bold;
+}
+
+hr {
+    border: 1px solid #ddd;
+}
+
+/* Form Styling */
+.form-horizontal, .form-actions {
+    margin: 20px 0;
+    padding: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.control-label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn {
+    background-color: #6d1a1b;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+    .btn:hover {
+        background-color: #5b1416; /* Darker red */
+    }
+
+.btn-default {
+    background-color: #6d1a1b;
+    color: white;
+}
+
+.text-danger {
+    color: #d9534f; /* Bootstrap's red for errors */
+}
+
+/* Tables */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .table th, .table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #6d1a1b;
+        color: white;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: #f4f4f4;
+    }
+
+    .table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+/* Details and Delete Page Styling */
+.dl-horizontal dt {
+    font-weight: bold;
+    color: #6d1a1b;
+}
+
+.dl-horizontal dd {
+    margin: 0 0 10px 0;
+}
+
+/* Links */
+a {
+    color: #6d1a1b;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* Buttons */
+input[type="submit"] {
+    background-color: #6d1a1b;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    input[type="submit"]:hover {
+        background-color: #5b1416;
+    }

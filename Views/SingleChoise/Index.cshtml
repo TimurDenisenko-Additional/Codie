@@ -1,47 +1,41 @@
 ﻿@model IEnumerable<Codie.Models.SingleChoiseModel>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Tasks";
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+    <link rel="stylesheet" href="~/Content/style.css">
+
 </head>
 <body>
+    <h1>Single Choice Questions</h1>
     <p>
-        @Html.ActionLink("Create New", "Create")
+        <a href="@Url.Action("Create")" class="create-link">Create New</a>
     </p>
     <table class="table">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Statement)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Options)
-            </th>
-            <th></th>
+            <th>Statement</th>
+            <th>Options</th>
+            <th>Actions</th>
         </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Statement)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Options)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-    
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Statement)</td>
+                <td>@Html.DisplayFor(modelItem => item.Options)</td>
+                <td class="actions">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
     </table>
 </body>
 </html>

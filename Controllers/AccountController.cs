@@ -2,7 +2,9 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using Codie.Models;
 using Codie.Models.DB;
 
@@ -152,18 +154,6 @@ namespace Codie.Controllers
             UserState.Authorized = false;
             UserState.CurrentUser = null;
             return RedirectToAction("Introduction", "Book");
-        }
-        public ActionResult Recovery()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Recovery([Bind(Include = "Email")] AccountModel accountModel)
-        {
-            AccountModel fullAcc = db.Accounts.Where(x => x.Email == accountModel.Email).ToArray()[0];
-            //Email($"{fullAcc.Email}", "Parooli taastamine", $"Teie PIN-kood: {fullAcc.PinCode}");
-            return RedirectToAction("Login", "Account");
         }
         protected override void Dispose(bool disposing)
         {

@@ -5,13 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using Codie.Models;
 using Codie.Models.DB;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
-using Task = Codie.Models.Task;
 
 namespace Codie.Controllers
 {

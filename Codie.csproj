@@ -165,6 +165,7 @@
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\CodeTaskController.cs" />
     <Compile Include="Controllers\MultiChoiseController.cs" />
+    <Compile Include="Controllers\RandomTasksController.cs" />
     <Compile Include="Controllers\SingleChoiseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -235,7 +236,6 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Recovery.cshtml" />
     <Content Include="Views\Book\Introduction.cshtml" />
     <Content Include="Views\Book\BasicTypes.cshtml" />
     <Content Include="Views\Book\Methods.cshtml" />
@@ -269,6 +269,9 @@
     <Content Include="Views\CodeTask\Edit.cshtml" />
     <Content Include="Views\CodeTask\Index.cshtml" />
     <Content Include="Views\CodeTask\Tasks.cshtml" />
+    <Content Include="Views\RandomTasks\EasyTest.cshtml" />
+    <Content Include="Views\RandomTasks\MediumTest.cshtml" />
+    <Content Include="Views\RandomTasks\HardTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -323,7 +326,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>60325</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44348/</IISUrl>
+          <IISUrl>https://localhost:44349/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,7 +1,8 @@
 ﻿@model Codie.Models.MultiChoiseModel
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Tasks";
 }
 
 <!DOCTYPE html>
@@ -10,6 +11,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Details</title>
+    <link rel="stylesheet" href="~/Content/style.css">
+
 </head>
 <body>
     <div>
@@ -19,19 +22,19 @@
             <dt>
                 @Html.DisplayNameFor(model => model.Statement)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Statement)
             </dd>
-    
+
             <dt>
                 @Html.DisplayNameFor(model => model.Options)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Options)
             </dd>
-    
+
         </dl>
     </div>
     <p>

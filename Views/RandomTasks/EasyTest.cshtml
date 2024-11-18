@@ -1,0 +1,104 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Connects to shared layout with a navbar
+    ViewBag.Title = "EasyTest"; // Sets the page title
+}
+
+<div style="margin: 2rem auto; max-width: 800px; font-family: Arial, sans-serif;">
+    <!-- Single Choice Question -->
+    <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <p style="font-weight: bold;">@Model.Item1.Item1</p>
+        <p>@Model.Item1.Item2[0].text</p>
+        <input type="radio" name="@Model.Item1.Item1" value="@Model.Item1.Item2[0].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
+        <p>@Model.Item1.Item2[1].text</p>
+        <input type="radio" name="@Model.Item1.Item1" value="@Model.Item1.Item2[1].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
+    </div>
+
+    <!-- Multiple Choice Question -->
+    <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <p style="font-weight: bold;">@Model.Item2.Item1</p>
+        <p>@Model.Item2.Item2[0].text</p>
+        <input type="checkbox" name="@Model.Item2.Item1" value="@Model.Item2.Item2[0].isCorrect.ToString()" />
+        <p>@Model.Item2.Item2[1].text</p>
+        <input type="checkbox" name="@Model.Item2.Item1" value="@Model.Item2.Item2[1].isCorrect.ToString()" />
+        <p>@Model.Item2.Item2[2].text</p>
+        <input type="checkbox" name="@Model.Item2.Item1" value="@Model.Item2.Item2[2].isCorrect.ToString()" />
+        <br />
+        <button type="button" onclick="AnswerSubmit('@Model.Item2.Item1')" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #6d1a1b; color: white; border: none; border-radius: 5px; cursor: pointer;">Kontrolli</button>
+    </div>
+
+    <!-- Code Task -->
+    <form class="taskForm" data-task-id="@Model.Item3.Id" style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        @Html.AntiForgeryToken()
+        <p style="font-weight: bold;">@Model.Item3.Task</p>
+        <textarea rows="4" cols="50" name="code" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+        <button type="submit" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #6d1a1b; color: white; border: none; border-radius: 5px; cursor: pointer;">Lõpeta</button>
+    </form>
+</div>
+
+<script>
+    function onRadioButtonChange(radioButton) {
+        const parentDiv = radioButton.closest('div');
+        if (radioButton.value === "True") {
+            parentDiv.style.backgroundColor = "#d4edda";
+            parentDiv.style.borderColor = "#c3e6cb";
+            parentDiv.style.color = "#155724";
+            parentDiv.style.pointerEvents = "none";
+        } else {
+            parentDiv.style.backgroundColor = "#f8d7da";
+            parentDiv.style.borderColor = "#f5c6cb";
+            parentDiv.style.color = "#721c24";
+            parentDiv.style.pointerEvents = "none";
+        }
+    }
+
+    function AnswerSubmit(groupName) {
+        const checkboxes = document.querySelectorAll(`input[name="${groupName}"]:checked`);
+        const parentDiv = checkboxes[0]?.closest('div');
+        if (!parentDiv) return;
+
+        try {
+            const allCorrect = Array.from(checkboxes).every(checkbox => checkbox.value === "True");
+            if (allCorrect) {
+                parentDiv.style.backgroundColor = "#d4edda";
+                parentDiv.style.borderColor = "#c3e6cb";
+                parentDiv.style.color = "#155724";
+            } else {
+                parentDiv.style.backgroundColor = "#f8d7da";
+                parentDiv.style.borderColor = "#f5c6cb";
+                parentDiv.style.color = "#721c24";
+            }
+            parentDiv.style.pointerEvents = "none";
+        } catch (e) {
+            parentDiv.style.backgroundColor = "#f8d7da";
+            parentDiv.style.borderColor = "#f5c6cb";
+            parentDiv.style.color = "#721c24";
+            parentDiv.style.pointerEvents = "none";
+        }
+    }
+
+    document.addEventListener("submit", function (e) {
+        if (e.target.classList.contains("taskForm")) {
+            e.preventDefault();
+            const form = e.target;
+            fetch('/CodeTask/TaskComplete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': form.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    id: form.getAttribute("data-task-id"),
+                    code: form.querySelector('textarea[name="code"]').value
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) {
+                        form.querySelector('textarea[name="code"]').setAttribute("readonly", "true");
+                        form.querySelector('button[type="submit"]').disabled = true;
+                    }
+                });
+        }
+    });
+</script>
