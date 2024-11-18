@@ -1,0 +1,103 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>HardTest</title>
+</head>
+<body>
+    @foreach (var item in Model.Item1)
+    {
+        <div>
+            <p>@item.Item1</p>
+            <p>@item.Item2[0].text</p>
+            <input type="radio" name="@item.Item1" value="@item.Item2[0].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
+            <p>@item.Item2[1].text</p>
+            <input type="radio" name="@item.Item1" value="@item.Item2[1].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
+        </div>
+    }
+    <hr />
+    @foreach (var item in Model.Item2)
+    {
+        <div>
+            <p>@item.Item1</p>
+            <p>@item.Item2[0].text</p>
+            <input type="checkbox" name="@item.Item1" value="@item.Item2[0].isCorrect.ToString()" />
+            <p>@item.Item2[1].text</p>
+            <input type="checkbox" name="@item.Item1" value="@item.Item2[1].isCorrect.ToString()" />
+            <p>@item.Item2[2].text</p>
+            <input type="checkbox" name="@item.Item1" value="@item.Item2[2].isCorrect.ToString()" />
+            <input type="submit" name="@item.Item1" value="Kontrolli" onclick="AnswerSubmit('@item.Item1')" />
+        </div>
+    }
+    @foreach (var item in Model.Item3)
+    {
+        <form class="taskForm" data-task-id="@item.Id">
+            @Html.AntiForgeryToken()
+            <p>@item.Task</p>
+            <textarea rows="4" cols="50" name="code"></textarea>
+            <button type="submit">Lõpeta</button>
+        </form>
+    }
+    <script>
+        function onRadioButtonChange(radioButton) {
+            if (radioButton.value === "True") {
+                radioButton.parentElement.style = "background: green; pointer-events: none;";
+            }
+            else {
+                radioButton.parentElement.style = "background: red; color: white; pointer-events: none;";
+            }
+        }
+    </script>
+    <script>
+        function AnswerSubmit(groupName) {
+            const checkboxes = document.querySelectorAll(`input[name="${groupName}"]:checked`);
+            try {
+                if (checkboxes[0].value === "True" && checkboxes[1].value === "True") {
+                    checkboxes[0].parentElement.style = "background: green; pointer-events: none;";
+                }
+                else if (checkboxes[0].value === "True" || checkboxes[1].value === "True") {
+                    checkboxes[0].parentElement.style = "background: yellow; pointer-events: none;";
+                }
+                else {
+                    checkboxes[0].parentElement.style = "background: red; color: white; pointer-events: none;";
+                }
+            } catch (e) {
+                checkboxes[0].parentElement.style = "background: red; color: white; pointer-events: none;";
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener("submit", function (e) {
+            if (e.target.classList.contains("taskForm")) {
+                e.preventDefault();
+                const form = e.target;
+                fetch('/CodeTask/TaskComplete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': form.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        id: form.getAttribute("data-task-id"),
+                        code: form.querySelector('textarea[name="code"]').value
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        if (data.success) {
+                            form.querySelector('textarea[name="code"]').setAttribute("readonly", "true");
+                            form.querySelector('button[type="submit"]').disabled = true;
+                        }
+                    })
+            }
+        });
+    </script>
+</body>
+</html>
