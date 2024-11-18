@@ -1,0 +1,95 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EasyTest</title>
+</head>
+<body>
+    <div>
+        <p>@Model.Item1.Item1</p>
+        <p>@Model.Item1.Item2[0].text</p>
+        <input type="radio" name="@Model.Item1" value="@Model.Item1.Item2[0].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
+        <p>@Model.Item1.Item2[1].text</p>
+        <input type="radio" name="@Model.Item1" value="@Model.Item1.Item2[1].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
+    </div>
+    <hr />
+    <div>
+        <p>@Model.Item2.Item1</p>
+        <p>@Model.Item2.Item2[0].text</p>
+        <input type="checkbox" name="@Model.Item2.Item1" value="@Model.Item2.Item2[0].isCorrect.ToString()" />
+        <p>@Model.Item2.Item2[1].text</p>
+        <input type="checkbox" name="@Model.Item2.Item1" value="@Model.Item2.Item2[1].isCorrect.ToString()" />
+        <p>@Model.Item2.Item2[2].text</p>
+        <input type="checkbox" name="@Model.Item2.Item1" value="@Model.Item2.Item2[2].isCorrect.ToString()" />
+        <input type="submit" name="@Model.Item2.Item1" value="Kontrolli" onclick="AnswerSubmit('@Model.Item2.Item1')" />
+    </div>
+    <hr />
+    <form class="taskForm" data-task-id="@Model.Item3.Id">
+        @Html.AntiForgeryToken()
+        <p>@Model.Item3.Task</p>
+        <textarea rows="4" cols="50" name="code"></textarea>
+        <button type="submit">Lõpeta</button>
+    </form>
+    <script>
+        function onRadioButtonChange(radioButton) {
+            if (radioButton.value === "True") {
+                radioButton.parentElement.style = "background: green; pointer-events: none;";
+            }
+            else {
+                radioButton.parentElement.style = "background: red; color: white; pointer-events: none;";
+            }
+        }
+    </script>
+    <script>
+        function AnswerSubmit(groupName) {
+            const checkboxes = document.querySelectorAll(`input[name="${groupName}"]:checked`);
+            try {
+                if (checkboxes[0].value === "True" && checkboxes[1].value === "True") {
+                    checkboxes[0].parentElement.style = "background: green; pointer-events: none;";
+                }
+                else if (checkboxes[0].value === "True" || checkboxes[1].value === "True") {
+                    checkboxes[0].parentElement.style = "background: yellow; pointer-events: none;";
+                }
+                else {
+                    checkboxes[0].parentElement.style = "background: red; color: white; pointer-events: none;";
+                }
+            } catch (e) {
+                checkboxes[0].parentElement.style = "background: red; color: white; pointer-events: none;";
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener("submit", function (e) {
+            if (e.target.classList.contains("taskForm")) {
+                e.preventDefault();
+                const form = e.target;
+                fetch('/CodeTask/TaskComplete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': form.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        id: form.getAttribute("data-task-id"),
+                        code: form.querySelector('textarea[name="code"]').value
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        if (data.success) {
+                            form.querySelector('textarea[name="code"]').setAttribute("readonly", "true");
+                            form.querySelector('button[type="submit"]').disabled = true;
+                        }
+                    })
+            }
+        });
+    </script>
+</body>
+</html>

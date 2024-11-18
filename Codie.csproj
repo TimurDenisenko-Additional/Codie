@@ -168,6 +168,7 @@
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\CodeTaskController.cs" />
     <Compile Include="Controllers\MultiChoiseController.cs" />
+    <Compile Include="Controllers\RandomTasksController.cs" />
     <Compile Include="Controllers\SingleChoiseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -271,6 +272,7 @@
     <Content Include="Views\CodeTask\Edit.cshtml" />
     <Content Include="Views\CodeTask\Index.cshtml" />
     <Content Include="Views\CodeTask\Tasks.cshtml" />
+    <Content Include="Views\RandomTasks\EasyTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
