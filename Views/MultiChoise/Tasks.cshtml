@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -9,11 +8,86 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Tasks</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container Styling */
+        div {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px auto;
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Question Text Styling */
+        p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Checkbox Styling */
+        input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2); /* Make checkboxes larger */
+        }
+
+        input[type="submit"] {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #6d1a1b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #9d2426; /* Slightly lighter red on hover */
+        }
+
+        /* Correct Answer Styling */
+        div.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            pointer-events: none; /* Prevent further interaction */
+        }
+
+        /* Partially Correct Answer Styling */
+        div.partial {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+            pointer-events: none; /* Prevent further interaction */
+        }
+
+        /* Incorrect Answer Styling */
+        div.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            pointer-events: none; /* Prevent further interaction */
+        }
+
+    </style>
 </head>
 <body>
     @foreach (Tuple<string, Codie.Models.Task[]> item in Model)
     {
-        <div>
+        <div id="group-@item.Item1">
             <p>@item.Item1</p>
             <p>@item.Item2[0].text</p>
             <input type="checkbox" name="@item.Item1" value="@item.Item2[0].isCorrect.ToString()" />
@@ -21,26 +95,38 @@
             <input type="checkbox" name="@item.Item1" value="@item.Item2[1].isCorrect.ToString()" />
             <p>@item.Item2[2].text</p>
             <input type="checkbox" name="@item.Item1" value="@item.Item2[2].isCorrect.ToString()" />
-            <input type="submit" name="@item.Item1" value="Kontrolli" onclick="AnswerSubmit('@item.Item1')"/>
+            <br />
+            <input type="submit" name="@item.Item1" value="Kontrolli" onclick="AnswerSubmit('@item.Item1', this)" />
         </div>
-        <hr />
     }
     <script>
-        function AnswerSubmit(groupName) {
+        function AnswerSubmit(groupName, button) {
             const checkboxes = document.querySelectorAll(`input[name="${groupName}"]:checked`);
-            try {
-                if (checkboxes[0].value === "True" && checkboxes[1].value === "True") {
-                    checkboxes[0].parentElement.style = "background: green; pointer-events: none;";
+            const groupDiv = button.parentElement;
+
+            // Evaluate the results
+            let correctAnswers = 0;
+            let incorrectAnswers = 0;
+
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.value === "True") {
+                    correctAnswers++;
+                } else {
+                    incorrectAnswers++;
                 }
-                else if (checkboxes[0].value === "True" || checkboxes[1].value === "True") {
-                    checkboxes[0].parentElement.style = "background: yellow; pointer-events: none;";
-                }
-                else {
-                    checkboxes[0].parentElement.style = "background: red; color: white; pointer-events: none;";
-                }
-            } catch (e) {
-                checkboxes[0].parentElement.style = "background: red; color: white; pointer-events: none;";
+            });
+
+            // Apply styles based on the results
+            if (correctAnswers > 0 && incorrectAnswers === 0) {
+                groupDiv.className = "correct"; // Fully correct
+            } else if (correctAnswers > 0 && incorrectAnswers > 0) {
+                groupDiv.className = "partial"; // Partially correct
+            } else {
+                groupDiv.className = "incorrect"; // Fully incorrect
             }
+
+            // Disable further interaction
+            groupDiv.querySelectorAll("input").forEach((input) => (input.disabled = true));
         }
     </script>
 </body>

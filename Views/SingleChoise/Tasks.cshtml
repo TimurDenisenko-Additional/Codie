@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -9,6 +8,58 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Tasks</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container Styling */
+        div {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px auto;
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Question Text Styling */
+        p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Radio Button Styling */
+        input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2); /* Make radio buttons larger */
+        }
+
+        /* Correct Answer Styling */
+        div.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            pointer-events: none; /* Prevent further interaction */
+        }
+
+        /* Incorrect Answer Styling */
+        div.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            pointer-events: none; /* Prevent further interaction */
+        }
+
+        }
+    </style>
 </head>
 <body>
     @foreach (Tuple<string, Codie.Models.Task[]> item in Model)
@@ -18,16 +69,15 @@
             <p>@item.Item2[0].text</p>
             <input type="radio" name="@item.Item1" value="@item.Item2[0].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
             <p>@item.Item2[1].text</p>
-            <input type="radio" name="@item.Item1" value="@item.Item2[1].isCorrect.ToString()" onchange="onRadioButtonChange(this)"/>
+            <input type="radio" name="@item.Item1" value="@item.Item2[1].isCorrect.ToString()" onchange="onRadioButtonChange(this)" />
         </div>
     }
     <script>
         function onRadioButtonChange(radioButton) {
-            if (radioButton.value==="True") {
-                radioButton.parentElement.style = "background: green; pointer-events: none;";
-            }
-            else {
-                radioButton.parentElement.style = "background: red; color: white; pointer-events: none;";
+            if (radioButton.value === "True") {
+                radioButton.parentElement.className = "correct";
+            } else {
+                radioButton.parentElement.className = "incorrect";
             }
         }
     </script>
