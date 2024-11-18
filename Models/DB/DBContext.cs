@@ -1,15 +1,27 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
 
 namespace Codie.Models.DB
 {
-    public class DBContext : DbContext
+    public class DBContext
     {
-        public DbSet<AccountModel> Accounts { get; set; }
+        public static List<AccountModel> Accounts = new List<AccountModel>
+        {
+            new AccountModel
+            {
+            Id = 0,
+            FirstName = "Admin",
+            LastName = "Admin",
+            Gender = "Male",
+            Email = "admin@gmail.com",
+            Password = "admin",
+            Role = "Admin"
+            }
+        };
 
-        public System.Data.Entity.DbSet<Codie.Models.SingleChoiseModel> SingleChoiseModels { get; set; }
+        public static List<Codie.Models.SingleChoiseModel> SingleChoiseModels = SingleChoiseData.singleData;
 
-        public System.Data.Entity.DbSet<Codie.Models.MultiChoiseModel> MultiChoiseModels { get; set; }
+        public static List<Codie.Models.MultiChoiseModel> MultiChoiseModels = MultiChoiseData.multiData;
 
-        public System.Data.Entity.DbSet<Codie.Models.CodeTaskModel> CodeTaskModels { get; set; }
+        public static List<Codie.Models.CodeTaskModel> CodeTaskModels = CodeTasksData.codeData;
     }
 }

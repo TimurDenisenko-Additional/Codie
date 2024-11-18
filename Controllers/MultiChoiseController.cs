@@ -19,7 +19,7 @@ namespace Codie.Controllers
         // GET: MultiChoise
         public ActionResult Index()
         {
-            return View(db.MultiChoiseModels.ToList());
+            return View(DBContext.MultiChoiseModels.ToList());
         }
 
         // GET: MultiChoise/Details/5
@@ -29,7 +29,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MultiChoiseModel multiChoiseModel = db.MultiChoiseModels.Find(id);
+            MultiChoiseModel multiChoiseModel = DBContext.MultiChoiseModels.Where(x => x.Id == id).ToList()[0];
             if (multiChoiseModel == null)
             {
                 return HttpNotFound();
@@ -52,8 +52,7 @@ namespace Codie.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.MultiChoiseModels.Add(multiChoiseModel);
-                db.SaveChanges();
+                DBContext.MultiChoiseModels.Add(multiChoiseModel);
                 return RedirectToAction("Index");
             }
 
@@ -67,7 +66,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MultiChoiseModel multiChoiseModel = db.MultiChoiseModels.Find(id);
+            MultiChoiseModel multiChoiseModel = DBContext.MultiChoiseModels.Where(x => x.Id == id).ToList()[0];
             if (multiChoiseModel == null)
             {
                 return HttpNotFound();
@@ -84,8 +83,7 @@ namespace Codie.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(multiChoiseModel).State = EntityState.Modified;
-                db.SaveChanges();
+                DBContext.MultiChoiseModels[DBContext.Accounts.Where(x => x.Id == multiChoiseModel.Id).ToList()[0].Id] = multiChoiseModel;
                 return RedirectToAction("Index");
             }
             return View(multiChoiseModel);
@@ -98,7 +96,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MultiChoiseModel multiChoiseModel = db.MultiChoiseModels.Find(id);
+            MultiChoiseModel multiChoiseModel = DBContext.MultiChoiseModels.Where(x => x.Id == id).ToList()[0];
             if (multiChoiseModel == null)
             {
                 return HttpNotFound();
@@ -111,15 +109,14 @@ namespace Codie.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            MultiChoiseModel multiChoiseModel = db.MultiChoiseModels.Find(id);
-            db.MultiChoiseModels.Remove(multiChoiseModel);
-            db.SaveChanges();
+            MultiChoiseModel multiChoiseModel = DBContext.MultiChoiseModels.Where(x => x.Id == id).ToList()[0];
+            DBContext.MultiChoiseModels.Remove(multiChoiseModel);
             return RedirectToAction("Index");
         }
         public ActionResult Tasks()
         {
             List<Tuple<string, Task[]>> MCMList = new List<Tuple<string, Task[]>>();
-            foreach (MultiChoiseModel mcm in db.MultiChoiseModels)
+            foreach (MultiChoiseModel mcm in DBContext.MultiChoiseModels)
             {
                 MCMList.Add(Tuple.Create(mcm.Statement, JsonConvert.DeserializeObject<Task[]>(mcm.Options)));
             }
@@ -128,10 +125,6 @@ namespace Codie.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }

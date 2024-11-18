@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -10,12 +9,12 @@ namespace Codie.Controllers
 {
     public class AccountController : Controller
     {
-        private DBContext db = new DBContext();
+        
 
         // GET: Account
         public ActionResult Index()
         {
-            return View(db.Accounts.ToList());
+            return View(DBContext.Accounts.ToList());
         }
 
         // GET: Account/Details
@@ -41,8 +40,7 @@ namespace Codie.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Accounts.Add(accountModel);
-                db.SaveChanges();
+                DBContext.Accounts.Add(accountModel);
                 return RedirectToAction("Index");
             }
 
@@ -56,7 +54,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AccountModel accountModel = db.Accounts.Find(id);
+            AccountModel accountModel = DBContext.Accounts.Where(x => x.Id == id).ToList()[0];
             if (accountModel == null)
             {
                 return HttpNotFound();
@@ -71,8 +69,7 @@ namespace Codie.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(accountModel).State = EntityState.Modified;
-                db.SaveChanges();
+                DBContext.Accounts[DBContext.Accounts.Where(x => x.Id == accountModel.Id).ToList()[0].Id] = accountModel;
                 return RedirectToAction("Index");
             }
             return View(accountModel);
@@ -85,7 +82,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AccountModel accountModel = db.Accounts.Find(id);
+            AccountModel accountModel = DBContext.Accounts.Where(x => x.Id == id).ToList()[0];
             if (accountModel == null)
             {
                 return HttpNotFound();
@@ -98,9 +95,8 @@ namespace Codie.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            AccountModel accountModel = db.Accounts.Find(id);
-            db.Accounts.Remove(accountModel);
-            db.SaveChanges();
+            AccountModel accountModel = DBContext.Accounts.Where(x => x.Id == id).ToList()[0];
+            DBContext.Accounts.Remove(accountModel);
             return RedirectToAction("Index");
         }
         public ActionResult Register()
@@ -113,12 +109,11 @@ namespace Codie.Controllers
         {
             try
             {
-                if (db.Accounts.ToList().Where(x => x.Email == accountModel.Email).Count() == 0)
+                if (DBContext.Accounts.ToList().Where(x => x.Email == accountModel.Email).Count() == 0)
                 {
                     accountModel.Role = "User";
                     UserState.CurrentUser = accountModel;
-                    db.Accounts.Add(accountModel);
-                    db.SaveChanges();
+                    DBContext.Accounts.Add(accountModel);
                     return RedirectToAction("Login", "Account");
                 }
             }
@@ -135,7 +130,7 @@ namespace Codie.Controllers
         {
             try
             {
-                AccountModel reAcc = db.Accounts.Where(x => x.Email == accountModel.Email).ToList()[0];
+                AccountModel reAcc = DBContext.Accounts.Where(x => x.Email == accountModel.Email).ToList()[0];
                 if (reAcc.Password == accountModel.Password)
                 {
                     HttpContext.Cache.Insert("Authorized", true, null, DateTime.Now.AddDays(1), System.Web.Caching.Cache.NoSlidingExpiration);
@@ -161,16 +156,12 @@ namespace Codie.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Recovery([Bind(Include = "Email")] AccountModel accountModel)
         {
-            AccountModel fullAcc = db.Accounts.Where(x => x.Email == accountModel.Email).ToArray()[0];
+            AccountModel fullAcc = DBContext.Accounts.Where(x => x.Email == accountModel.Email).ToArray()[0];
             //Email($"{fullAcc.Email}", "Parooli taastamine", $"Teie PIN-kood: {fullAcc.PinCode}");
             return RedirectToAction("Login", "Account");
         }
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }

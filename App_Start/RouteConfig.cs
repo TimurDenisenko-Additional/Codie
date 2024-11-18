@@ -24,20 +24,6 @@ namespace Codie
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Account", action = "Details", id = UrlParameter.Optional }
             );
-            if (db.Accounts.Where(x => x.Role == "Admin").Count() == 0)
-            {
-                db.Accounts.Add(new AccountModel
-                {
-                    Id = 0,
-                    FirstName = "Admin",
-                    LastName = "Admin",
-                    Gender = "Male",
-                    Email = "admin@gmail.com",
-                    Password = "admin",
-                    Role = "Admin"
-                });
-                db.SaveChanges();
-            }
         }
     }
 }

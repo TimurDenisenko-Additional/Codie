@@ -17,7 +17,7 @@ namespace Codie.Controllers
         // GET: SingleChoise
         public ActionResult Index()
         {
-            return View(db.SingleChoiseModels.ToList());
+            return View(DBContext.SingleChoiseModels.ToList());
         }
 
         // GET: SingleChoise/Details/5
@@ -27,7 +27,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SingleChoiseModel singleChoiseModel = db.SingleChoiseModels.Find(id);
+            SingleChoiseModel singleChoiseModel = DBContext.SingleChoiseModels.Where(x => x.Id == id).ToList()[0];
             if (singleChoiseModel == null)
             {
                 return HttpNotFound();
@@ -45,14 +45,8 @@ namespace Codie.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Statement,Options")] SingleChoiseModel singleChoiseModel)
         {
-            if (ModelState.IsValid)
-            {
-                db.SingleChoiseModels.Add(singleChoiseModel);
-                db.SaveChanges();
+                DBContext.SingleChoiseModels.Add(singleChoiseModel);
                 return RedirectToAction("Index");
-            }
-
-            return View(singleChoiseModel);
         }
 
         // GET: SingleChoise/Edit/5
@@ -62,7 +56,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SingleChoiseModel singleChoiseModel = db.SingleChoiseModels.Find(id);
+            SingleChoiseModel singleChoiseModel = DBContext.SingleChoiseModels.Where(x => x.Id == id).ToList()[0];
             if (singleChoiseModel == null)
             {
                 return HttpNotFound();
@@ -79,8 +73,7 @@ namespace Codie.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(singleChoiseModel).State = EntityState.Modified;
-                db.SaveChanges();
+                DBContext.SingleChoiseModels[DBContext.Accounts.Where(x => x.Id == singleChoiseModel.Id).ToList()[0].Id] = singleChoiseModel;
                 return RedirectToAction("Index");
             }
             return View(singleChoiseModel);
@@ -93,7 +86,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SingleChoiseModel singleChoiseModel = db.SingleChoiseModels.Find(id);
+            SingleChoiseModel singleChoiseModel = DBContext.SingleChoiseModels.Where(x => x.Id == id).ToList()[0];
             if (singleChoiseModel == null)
             {
                 return HttpNotFound();
@@ -106,16 +99,15 @@ namespace Codie.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SingleChoiseModel singleChoiseModel = db.SingleChoiseModels.Find(id);
-            db.SingleChoiseModels.Remove(singleChoiseModel);
-            db.SaveChanges();
+            SingleChoiseModel singleChoiseModel = DBContext.SingleChoiseModels.Where(x => x.Id == id).ToList()[0];
+            DBContext.SingleChoiseModels.Remove(singleChoiseModel);
             return RedirectToAction("Index");
         }
 
         public ActionResult Tasks()
         {
             List<Tuple<string, Task[]>> SCMList = new List<Tuple<string, Task[]>>();
-            foreach (SingleChoiseModel scm in db.SingleChoiseModels)
+            foreach (SingleChoiseModel scm in DBContext.SingleChoiseModels)
             {
                 SCMList.Add(Tuple.Create(scm.Statement, JsonConvert.DeserializeObject<Task[]>(scm.Options)));
             }
@@ -123,10 +115,6 @@ namespace Codie.Controllers
         }
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }

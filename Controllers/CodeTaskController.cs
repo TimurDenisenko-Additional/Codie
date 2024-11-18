@@ -20,7 +20,7 @@ namespace Codie.Controllers
         // GET: CodeTask
         public ActionResult Index()
         {
-            return View(db.CodeTaskModels.ToList());
+            return View(DBContext.CodeTaskModels.ToList());
         }
 
         // GET: CodeTask/Details/5
@@ -30,14 +30,14 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CodeTaskModel codeTaskModel = db.CodeTaskModels.Find(id);
+            CodeTaskModel codeTaskModel = DBContext.CodeTaskModels.Where(x => x.Id == id).ToList()[0];
             if (codeTaskModel == null)
             {
                 return HttpNotFound();
             }
             return View(codeTaskModel);
         }
-
+            
         // GET: CodeTask/Create
         public ActionResult Create()
         {
@@ -53,8 +53,7 @@ namespace Codie.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.CodeTaskModels.Add(codeTaskModel);
-                db.SaveChanges();
+                DBContext.CodeTaskModels.Add(codeTaskModel);
                 return RedirectToAction("Index");
             }
 
@@ -68,7 +67,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CodeTaskModel codeTaskModel = db.CodeTaskModels.Find(id);
+            CodeTaskModel codeTaskModel = DBContext.CodeTaskModels.Where(x => x.Id == id).ToList()[0];
             if (codeTaskModel == null)
             {
                 return HttpNotFound();
@@ -85,8 +84,7 @@ namespace Codie.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(codeTaskModel).State = EntityState.Modified;
-                db.SaveChanges();
+                DBContext.CodeTaskModels[DBContext.Accounts.Where(x => x.Id == codeTaskModel.Id).ToList()[0].Id] = codeTaskModel;
                 return RedirectToAction("Index");
             }
             return View(codeTaskModel);
@@ -99,7 +97,7 @@ namespace Codie.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CodeTaskModel codeTaskModel = db.CodeTaskModels.Find(id);
+            CodeTaskModel codeTaskModel = DBContext.CodeTaskModels.Where(x => x.Id == id).ToList()[0];
             if (codeTaskModel == null)
             {
                 return HttpNotFound();
@@ -112,15 +110,14 @@ namespace Codie.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CodeTaskModel codeTaskModel = db.CodeTaskModels.Find(id);
-            db.CodeTaskModels.Remove(codeTaskModel);
-            db.SaveChanges();
+            CodeTaskModel codeTaskModel = DBContext.CodeTaskModels.Where(x => x.Id == id).ToList()[0];
+            DBContext.CodeTaskModels.Remove(codeTaskModel);
             return RedirectToAction("Index");
         }
 
         public ActionResult Tasks()
         {
-            return View(db.CodeTaskModels.ToList());
+            return View(DBContext.CodeTaskModels.ToList());
         }
         public async Task<JsonResult> TaskComplete(int id, string code)
         {
@@ -132,7 +129,7 @@ namespace Codie.Controllers
                 lines += "1";
                 string codeResult = ("Edu! Kood koostatud. Tagastusväärtus: " + result?.ReturnValue ?? null);
                 lines += "2";
-                CodeTaskModel ctm = db.CodeTaskModels.Where(x => x.Id == id).First();
+                CodeTaskModel ctm = DBContext.CodeTaskModels.Where(x => x.Id == id).First();
                 lines += string.Join(", ", ctm.Tests);
                 (bool, string) testResult = await Test(script, ctm.Code, JsonConvert.DeserializeObject<string[]>(ctm.Tests));
                 lines += "4";
@@ -161,10 +158,6 @@ namespace Codie.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }

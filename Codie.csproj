@@ -175,8 +175,10 @@
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\CodeTaskModel.cs" />
+    <Compile Include="Models\DB\CodeTasksData.cs" />
     <Compile Include="Models\DB\DBContext.cs" />
-    <Compile Include="Models\DB\DBInitializer.cs" />
+    <Compile Include="Models\DB\MultiChoiseData.cs" />
+    <Compile Include="Models\DB\SingleChoiseData.cs" />
     <Compile Include="Models\MultiChoiseModel.cs" />
     <Compile Include="Models\SingleChoiseModel.cs" />
     <Compile Include="Models\Task.cs" />
@@ -209,6 +211,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\Codie20241118105025 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
